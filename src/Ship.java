@@ -25,7 +25,7 @@ public class Ship {
 	
 	public boolean canFitWithinDimensions(int maxRows, int maxColumns) {
 		for (Cell cell : cells) {
-			if (cell.getRow() > maxRows || cell.getColumn() < maxColumns) {
+			if (cell.getRow() > maxRows - 1 || cell.getColumn() > maxColumns - 1) {
 				// this ship is outside the given bounds. 
 				return false;
 			}
