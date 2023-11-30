@@ -1,10 +1,14 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
 
 public class Game {
 	private static final int MIN_PLAYERS = 2;
+	private static final String FLEET_FILE_PATH = "fleets.txt";
+	
 	private List<String[]> fleetMap;
 	private List<Player> players;
 	private boolean gameIsOver;
@@ -18,18 +22,45 @@ public class Game {
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
 		this.players = new ArrayList<Player>();
+		this.fleetMap = new ArrayList<String[]>();
 	}
 	
-	private void loadFleets() {
-		
+	private int loadFleets() {
+		int fleetCount = 0;
+		try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
+            while (fileScanner.hasNext()) {
+                int rows = fileScanner.nextInt();
+                int columns = fileScanner.nextInt();
+
+                // Consume the newline after columns
+                fileScanner.nextLine();
+
+                List<String> fleetGrid = new ArrayList<>();
+
+                // Read each row of the fleet grid
+                for (int i = 0; i < rows; i++) {
+                	String nextLine = fileScanner.nextLine();
+                	// stop reading upon finding a bad row in the fleet file
+                	if (nextLine.length() != columns) return fleetCount;  
+                    fleetGrid.add(nextLine);
+                }
+
+                // Add the fleet grid to the list
+                fleetMap.add(fleetGrid.toArray(new String[0]));
+                fleetCount++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Fleet file could not be loaded.");
+        }
+		return fleetCount;
 	}
 
 	public void start() 
 	{
 		try {
-			while(!playersInitialized) {
-				initializePlayers();
-			}
+			initializePlayers();
+			if (!playersInitialized) return;
 			
             while (true) {
                 String command = scanner.next().toLowerCase(); // Case-insensitive
@@ -46,19 +77,18 @@ public class Game {
 	
 	private void initializePlayers() {
 	    try {
-	        System.out.print("Initializing players\nHow many players are there? ");
+	        //System.out.print("Initializing players\nHow many players are there? ");
 	        int playerCount = scanner.nextInt();
-
 	        if (playerCount < MIN_PLAYERS) {
 	            System.out.println("Invalid input. You must have at least " + MIN_PLAYERS + " players.");
 	            return;
 	        }
 
 	        for (int i = 1; i <= playerCount; i++) {
-	            System.out.print("Please provide the name for player " + i + ": ");
+	            //System.out.print("Please provide the name for player " + i + ": ");
 	            String playerName = scanner.next();
 
-	            System.out.print("Please provide the fleet number for " + playerName + ": ");
+	            //System.out.print("Please provide the fleet number for " + playerName + ": ");
 	            int fleetNumber = scanner.nextInt();
 
 	            if (fleetNumber < 1 || fleetNumber >= fleetMap.size()) {
@@ -66,7 +96,7 @@ public class Game {
 	                return;
 	            }
 
-	            Fleet newFleet = createFleetByNumber(fleetNumber);
+	            Fleet newFleet = FleetMapper.createFleet(fleetMap.get(fleetNumber));
 	            Player player = new Player(playerName, newFleet);
 	            players.add(player);
 	        }
@@ -77,10 +107,6 @@ public class Game {
 	        scanner.nextLine(); // Clear the buffer
 	        players.clear();
 	    }
-	}
-
-	private Fleet createFleetByNumber(int fleetNumber) {
-		return FleetMapper.createFleet(fleetMap.get(fleetNumber));
 	}
 
 	private void processCommand(String commandType) {
