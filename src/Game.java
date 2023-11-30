@@ -20,8 +20,8 @@ public class Game {
 		this.gameIsOver = false;
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
-		this.players = new ArrayList<Player>();
-		this.fleetMap = new ArrayList<String[]>();
+		this.players = new ArrayList<>();
+		this.fleetMap = new ArrayList<>();
 	}
 	
 	private int loadFleets() {
@@ -49,7 +49,6 @@ public class Game {
                 fleetCount++;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             System.out.println("Fleet file could not be loaded.");
         }
 		return fleetCount;
@@ -57,8 +56,10 @@ public class Game {
 
 	public void start() 
 	{
-		loadFleets();
+
 		try {
+			if(0 <= loadFleets()) return;
+
 			initializePlayers();
 			if (!playersInitialized) return;
 			currentPlayerIndex = 0;
