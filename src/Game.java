@@ -17,7 +17,6 @@ public class Game {
 	private Scanner scanner;
 	
 	public Game() {
-		loadFleets();
 		this.gameIsOver = false;
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
@@ -58,6 +57,7 @@ public class Game {
 
 	public void start() 
 	{
+		loadFleets();
 		try {
 			initializePlayers();
 			if (!playersInitialized) return;
@@ -113,7 +113,7 @@ public class Game {
 	private void processCommand(String commandType) {
         String input = scanner.nextLine();
         switch (commandType) {
-            case "player" -> processPlayerCommand(input);
+            case "player" -> processPlayerCommand();
             case "score" -> processScoreCommand(input);
             case "fleet" -> processFleetCommand(input);
             case "shoot" -> processShootCommand(input);
@@ -123,7 +123,7 @@ public class Game {
         }
     }
 	
-	private void processPlayerCommand(String input) {
+	private void processPlayerCommand() {
         // Your logic for processing "player" command
     }
 
@@ -137,7 +137,7 @@ public class Game {
 
     private void processRankingCommand() {
     	for(Player player : players){
-            System.out.println(player.getName() + " has " + player.getScore() + " points\n");
+            System.out.println(player.getName() + " has " + player.getScore() + " points");
         }
     }
 
