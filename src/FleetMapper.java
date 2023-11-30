@@ -28,16 +28,23 @@ public class FleetMapper {
     }
     private static Ship findShipAtAdjacentCell(char[][] grid, int row, int col, Fleet fleet) {
         // Check neighbors (up, down, left, right)
+        /*
         char[] neighbors = {
             (row > 0) ? grid[row - 1][col] : ' ', // up
             (row < grid.length - 1) ? grid[row + 1][col] : ' ', // down
             (col > 0) ? grid[row][col - 1] : ' ', // left
             (col < grid[row].length - 1) ? grid[row][col + 1] : ' ' // right
+        };*/
+
+        int[][] neighbors = {
+                {row - 1, col}, // up
+                {row + 1, col}, // down
+                {row, col - 1}, // left
+                {row, col + 1} // right
         };
 
-        for (char neighbor : neighbors) {
-            if (neighbor == ' ' || neighbor == '.') return null;
-            Ship possibleShip = fleet.getShipAt(row, col);
+        for (int[] neighbor : neighbors) {
+            Ship possibleShip = fleet.getShipAt(neighbor[0], neighbor[1]);
             if (possibleShip != null) return possibleShip;
         }
         return null;

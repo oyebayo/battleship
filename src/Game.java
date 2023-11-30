@@ -79,6 +79,7 @@ public class Game {
 	    try {
 	        //System.out.print("Initializing players\nHow many players are there? ");
 	        int playerCount = scanner.nextInt();
+			scanner.nextLine(); // flush the newline character;
 	        if (playerCount < MIN_PLAYERS) {
 	            System.out.println("Invalid input. You must have at least " + MIN_PLAYERS + " players.");
 	            return;
@@ -86,10 +87,11 @@ public class Game {
 
 	        for (int i = 1; i <= playerCount; i++) {
 	            //System.out.print("Please provide the name for player " + i + ": ");
-	            String playerName = scanner.next();
+				String playerName = scanner.nextLine();
 
 	            //System.out.print("Please provide the fleet number for " + playerName + ": ");
 	            int fleetNumber = scanner.nextInt();
+				scanner.nextLine(); // flush the newline character;
 
 	            if (fleetNumber < 1 || fleetNumber >= fleetMap.size()) {
 	                System.out.println("Invalid fleet number. Please enter a valid fleet number.");
@@ -235,7 +237,7 @@ public class Game {
 
     private void quit() {
     	if(isOver()){
-            System.out.println(getWinningPlayer() + " won the game");
+            System.out.println(getWinningPlayer().getName() + " won the game");
             System.exit(0);
         }else {
             System.out.println("The game was not over yet...");
