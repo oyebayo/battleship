@@ -61,9 +61,10 @@ public class Game {
 		try {
 			initializePlayers();
 			if (!playersInitialized) return;
+			currentPlayerIndex = 0;
 			
             while (true) {
-                String command = scanner.next().toLowerCase(); // Case-insensitive
+                String command = scanner.next(); 
                 if (command.equals("quit")) {
                 	quit();
                 }else {
