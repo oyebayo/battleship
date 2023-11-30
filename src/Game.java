@@ -112,7 +112,7 @@ public class Game {
 	}
 
 	private void processCommand(String commandType) {
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         switch (commandType) {
             case "player" -> processPlayerCommand();
             case "score" -> processScoreCommand(input);
@@ -135,16 +135,25 @@ public class Game {
     }
 
     private void processScoreCommand(String playerName) {
-    	for(Player player : players){
-            if (player.getName().equals(playerName)) {
-            	System.out.println(playerName + " has " + player.getScore() + " points");
-            	return;
-            }	
-        }
-    	System.out.println("Nonexistent player");
+    	Player player = getPlayerByName(playerName);
+		if (player != null) 
+            System.out.println(playerName + " has " + player.getScore() + " points");	
     }
 
-    private void processFleetCommand(String input) {        // Your logic for processing "fleet" command
+    private Player getPlayerByName(String playerName){
+		for(Player player : players){
+			if (player.getName().equals(playerName)) {
+				return player;
+			}	
+		}
+		System.out.println("Nonexistent player");
+		return null;
+	}
+
+	private void processFleetCommand(String playerName) {      
+		Player player = getPlayerByName(playerName);
+		if (player != null) 
+            System.out.println(player.getFleet().printGrid());
     }
 
     private void processRankingCommand() {
