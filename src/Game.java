@@ -163,7 +163,9 @@ public class Game {
     }
 
     private void processInGameCommand() {
-        // Your logic for processing "in-game" command
+        for(Player player : players){
+            if (!player.isEliminated()) System.out.println(player.getName());
+        }
     }
 
     private void processShootCommand(String input) {
