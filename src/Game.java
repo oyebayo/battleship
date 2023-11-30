@@ -125,7 +125,13 @@ public class Game {
     }
 	
 	private void processPlayerCommand() {
-        // Your logic for processing "player" command
+        if (gameIsOver) {
+            System.out.println("The game is over");
+			return;
+        }
+
+		String nextPlayer = players.get(currentPlayerIndex).getName();
+		System.out.println("Next player: " + nextPlayer);
     }
 
     private void processScoreCommand(String input) {
