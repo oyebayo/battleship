@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Game {
 	private static final int MIN_PLAYERS = 2;
-	private List<char[]> fleetMap;
+	private List<String[]> fleetMap;
 	private List<Player> players;
 	private boolean gameIsOver;
 	private boolean playersInitialized;
@@ -20,6 +20,10 @@ public class Game {
 		this.players = new ArrayList<Player>();
 	}
 	
+	private void loadFleets() {
+		
+	}
+
 	public void start() 
 	{
 		try {
@@ -76,8 +80,7 @@ public class Game {
 	}
 
 	private Fleet createFleetByNumber(int fleetNumber) {
-		// TODO Auto-generated method stub
-		return null;
+		return FleetMapper.createFleet(fleetMap.get(fleetNumber));
 	}
 
 	private void processCommand(String commandType) {
@@ -131,10 +134,5 @@ public class Game {
     private String getWinningPlayer() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private void loadFleets() {
-		// TODO Auto-generated method stub
-		
 	}
 }

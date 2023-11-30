@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fleet {
@@ -8,9 +9,10 @@ public class Fleet {
 	public Fleet(int maxRows, int maxColumns){
 		this.maxRows = maxRows;
 		this.maxColumns = maxColumns;
+		ships = new ArrayList<Ship>(0);
 	}
 
-	private Ship getShipAt(int row, int column) {
+	public Ship getShipAt(int row, int column) {
 		for(Ship ship : ships) {
 			for (Cell cell : ship.getCells()) {
 				if (cell.getColumn() == column && cell.getRow() == row) {

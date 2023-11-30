@@ -1,8 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
 	private List<Cell> cells;
-
+	public Ship(){
+		cells = new ArrayList<Cell>(0);
+	}
 	public List<Cell> getCells() {
 		return cells;
 	}
