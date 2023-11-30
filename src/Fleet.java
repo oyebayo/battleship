@@ -60,4 +60,24 @@ public class Fleet {
 	public int getSize(){
         	return ships.size();
     }
+
+    public String printGrid() {
+		StringBuilder resultBuilder = new StringBuilder();
+        for (int i = 0; i < maxRows; i++) {
+            for (int j = 0; j < maxColumns; j++) {
+                Ship ship = getShipAt(i, j);
+				if (ship == null){
+					resultBuilder.append('.');
+				} else {
+					resultBuilder.append(ship.getCells().get(0).getLetter());
+				}
+
+				// see if we have reached the end of a row, but not end of the fleet
+				if (i != maxRows - 1 && j == maxColumns - 1){ 
+					resultBuilder.append('\n');
+				} 
+            }
+        }
+		return resultBuilder.toString();
+    }
 }
