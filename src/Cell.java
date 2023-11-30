@@ -30,5 +30,8 @@ public class Cell {
 		Cell that = (Cell) o;
 		return row == that.getRow() && column == that.getColumn();
 	}
+    public char getLetter() {
+        return letter;
+    }
 	
 }
