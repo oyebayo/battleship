@@ -12,6 +12,14 @@ public class Fleet {
 		ships = new ArrayList<Ship>(0);
 	}
 
+	public int getMaxRows(){
+		return maxRows;
+	}
+
+	public int getMaxColumns(){
+		return maxColumns;
+	}
+
 	public Ship getShipAt(int row, int column) {
 		for(Ship ship : ships) {
 			for (Cell cell : ship.getCells()) {
@@ -56,10 +64,6 @@ public class Fleet {
 		ships.add(ship);
 		return 1;
 	}
-	
-	public int getSize(){
-        	return ships.size();
-    }
 
     public String printGrid() {
 		StringBuilder resultBuilder = new StringBuilder();

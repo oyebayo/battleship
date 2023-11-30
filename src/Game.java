@@ -166,8 +166,71 @@ public class Game {
         }
     }
 
-    private void processShootCommand(String input) {
-        // Your logic for processing "shoot" command
+    private void processShootCommand(String shootParameters) {
+        if (isOver()){
+			System.out.println("The game is over");
+			return;
+		}
+
+		String[] parts = shootParameters.split(" ", 3);
+		if (parts.length != 3 || !isNumeric(parts[0]) || !isNumeric(parts[1])){
+			System.out.println("Invalid command");
+			return;
+		}
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+		// convert the parameters to zero-based indices
+		int targetRow = Integer.parseInt(parts[0]) - 1;
+		int targetColumn = Integer.parseInt(parts[1]) - 1;
+		Player targetPlayer = getPlayerByName(parts[2]);
+		if (!shotParametersValid(targetPlayer, currentPlayer, targetRow, targetColumn)) return;
+
+        int points = getPointsForShot(targetPlayer, targetRow, targetColumn);
+		currentPlayer.addScore(points);
+		currentPlayerIndex = getNextPlayerIndex();
+    }
+
+	private static boolean shotParametersValid(Player targetPlayer, Player currentPlayer, int targetRow, int targetColumn) {
+		if (targetPlayer == null) return false;
+		if (targetPlayer.getName().equals(currentPlayer.getName())){
+			System.out.println("Self-inflicted shot");
+			return false;
+		}
+		if(targetPlayer.isEliminated()){
+			System.out.println("Eliminated player");
+			return false;
+		}
+		if(targetRow > targetPlayer.getFleet().getMaxRows()
+			|| targetColumn > targetPlayer.getFleet().getMaxColumns()){
+				System.out.println("Invalid shot");
+			return false;
+		}
+		return true;
+	}
+
+	private int getPointsForShot(Player targetPlayer, int targetRow, int targetColumn) {
+		HitResult result = targetPlayer.getFleet().hitObjectAt(targetRow, targetColumn);
+        int points = switch (result.HitType) {
+            case SHIP -> result.CellCount * 100;
+            case WRECK -> result.CellCount * -30;
+            case BLANK -> 0;
+        };
+
+		if (isOver()) points = points * 2;
+		return points;
+	}
+
+	private int getNextPlayerIndex() {
+		int nextIndex = currentPlayerIndex;
+		do{
+			// modulo operator will ensure the indices remain less than max players
+			nextIndex = (nextIndex + 1) % players.size();
+		}while(players.get(nextIndex).isEliminated());
+		return nextIndex; 
+	}
+
+	private static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");  // Regular expression for numeric strings
     }
 
     private void quit() {
@@ -179,7 +242,7 @@ public class Game {
         }
     }
 
-    public boolean isOver() {
+    private boolean isOver() {
 		int activePlayers = 0;
 		for (Player player : players) {
             if (player.getFleet().hasRemainingShips())
