@@ -58,7 +58,7 @@ public class Game {
 	{
 
 		try {
-			if(0 <= loadFleets()) return;
+			if(loadFleets() <= 0) return;
 
 			initializePlayers();
 			if (!playersInitialized) return;
