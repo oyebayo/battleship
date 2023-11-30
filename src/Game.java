@@ -11,13 +11,11 @@ public class Game {
 	
 	private List<String[]> fleetMap;
 	private List<Player> players;
-	private boolean gameIsOver;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
 	private Scanner scanner;
 	
 	public Game() {
-		this.gameIsOver = false;
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
 		this.players = new ArrayList<>();
@@ -125,7 +123,7 @@ public class Game {
     }
 	
 	private void processPlayerCommand() {
-        if (gameIsOver) {
+        if (isOver()) {
             System.out.println("The game is over");
 			return;
         }
@@ -173,7 +171,7 @@ public class Game {
     }
 
     private void quit() {
-    	if(gameIsOver){
+    	if(isOver()){
             System.out.println(getWinningPlayer() + " won the game");
             System.exit(0);
         }else {
@@ -181,8 +179,45 @@ public class Game {
         }
     }
 
-    private String getWinningPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+    public boolean isOver() {
+		int activePlayers = 0;
+		for (Player player : players) {
+            if (player.getFleet().hasRemainingShips())
+				activePlayers++;
+        }
+
+		return activePlayers < MIN_PLAYERS;
+	}
+
+	private Player getWinningPlayer() {
+		Player winner = null;
+        for (Player player : players) {
+            if (winner == null || player.getScore() > winner.getScore()) {
+                winner = player;
+            }
+        }
+
+		int highScore = winner.getScore();
+		if (moreThanOnePlayerHasScore(highScore)){
+			for (Player player : players) {
+				if (!player.isEliminated()) {
+					winner = player;
+					break;
+				}
+            }
+        }
+
+        return winner;
+	}
+
+	private boolean moreThanOnePlayerHasScore(int highestScore) {
+		int count = 0;
+		for (Player player : players) {
+			if (player.getScore() == highestScore) {
+				count++;
+			}
+		}
+
+		return count > 1;
 	}
 }

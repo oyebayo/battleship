@@ -1,12 +1,10 @@
 public class Player {
     private String name;
-    private boolean active;
     private int score;
     private Fleet fleet;
 
     public Player(String name, Fleet fleet){
         score = 0;
-        active = true;
         this.name = name;
         this.fleet = fleet;
     }
@@ -26,11 +24,8 @@ public class Player {
 	public int getScore(){
 	    return score;
 	}
-	
-	public void setEliminated() {
-		active = false;
-	}
+
 	public boolean isEliminated() {
-		return active;
+		return !fleet.hasRemainingShips();
 	}
 }
