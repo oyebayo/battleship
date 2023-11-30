@@ -2,18 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
-	private List<Cell> cells;
+	private final List<Cell> cells;
 	public Ship(){
-		cells = new ArrayList<Cell>(0);
+		cells = new ArrayList<>(0);
 	}
 	public List<Cell> getCells() {
 		return cells;
 	}
 	
 	public void markAsWreck() {
-		for(int i = 0; i < cells.size(); i++) {
-			cells.get(i).hit();
-		}
+        for (Cell cell : cells) {
+            cell.hit();
+        }
 	}
 	public int getSize() {
 		return cells.size();
