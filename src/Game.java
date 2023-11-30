@@ -134,12 +134,17 @@ public class Game {
 		System.out.println("Next player: " + nextPlayer);
     }
 
-    private void processScoreCommand(String input) {
-        
+    private void processScoreCommand(String playerName) {
+    	for(Player player : players){
+            if (player.getName().equals(playerName)) {
+            	System.out.println(playerName + " has " + player.getScore() + " points");
+            	return;
+            }	
+        }
+    	System.out.println("Nonexistent player");
     }
 
-    private void processFleetCommand(String input) {
-        // Your logic for processing "fleet" command
+    private void processFleetCommand(String input) {        // Your logic for processing "fleet" command
     }
 
     private void processRankingCommand() {
