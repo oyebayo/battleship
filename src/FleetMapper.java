@@ -30,30 +30,31 @@ public class FleetMapper {
     private enum GridScanDirection { UP, DOWN, LEFT, RIGHT }
     private static Ship findShipAtAdjacentCell(char[][] grid, int row, int col, Fleet fleet) {
         for (GridScanDirection scanDirection : GridScanDirection.values()) {
-            int nrow = row;
-            int ncol = col;
+            int newRow = row;
+            int newCol = col;
 
             switch (scanDirection) {
                 case UP:
-                    nrow--;
+                    newRow--;
                     break;
                 case DOWN:
-                    nrow++;
+                    newRow++;
                     break;
                 case LEFT:
-                    ncol--;
+                    newCol--;
                     break;
                 case RIGHT:
-                    ncol++;
+                    newCol++;
                     break;
             }
 
-            if (nrow >= 0 && nrow < grid.length && ncol >= 0 && ncol < grid[row].length) {
-                char adjacentCellLetter = grid[nrow][ncol];
-                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, nrow, ncol, scanDirection, adjacentCellLetter));
-                Ship adjacentShip = fleet.getShipAt(nrow, ncol);
+            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
+                char adjacentCellLetter = grid[newRow][newCol];
+                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, newRow, newCol, scanDirection, adjacentCellLetter));
+                Ship adjacentShip = fleet.getShipAt(newRow, newCol);
 
                 if (adjacentShip == null || mightBePartOfAnotherShip) continue;
+
                 return adjacentShip;
             }
         }
