@@ -50,7 +50,7 @@ public class FleetMapper {
 
             if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
                 char adjacentCellLetter = grid[newRow][newCol];
-                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, newRow, newCol, scanDirection, adjacentCellLetter));
+                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, newRow, newCol, scanDirection, adjacentCellLetter);
                 Ship adjacentShip = fleet.getShipAt(newRow, newCol);
 
                 if (adjacentShip == null || mightBePartOfAnotherShip) continue;
