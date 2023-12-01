@@ -27,40 +27,56 @@ public class FleetMapper {
         return fleet;
     }
 
+    private enum GridScanDirection { UP, DOWN, LEFT, RIGHT }
     private static Ship findShipAtAdjacentCell(char[][] grid, int row, int col, Fleet fleet) {
-        char thisLetter = grid[row][col];
+        for (GridScanDirection scanDirection : GridScanDirection.values()) {
+            int nrow = row;
+            int ncol = col;
 
-        CellScanDirection[] directions = CellScanDirection.values();
-        for (CellScanDirection direction : directions) {
-            int nRow = row + (direction == CellScanDirection.DOWN ? 1 : (direction == CellScanDirection.UP ? -1 : 0));
-            int nCol = col + (direction == CellScanDirection.RIGHT ? 1 : (direction == CellScanDirection.LEFT ? -1 : 0));
+            switch (scanDirection) {
+                case UP:
+                    nrow--;
+                    break;
+                case DOWN:
+                    nrow++;
+                    break;
+                case LEFT:
+                    ncol--;
+                    break;
+                case RIGHT:
+                    ncol++;
+                    break;
+            }
 
-            if (nRow >= 0 && nRow < grid.length && nCol >= 0 && nCol < grid[nRow].length) {
-                char neighborLetter = grid[nRow][nCol];
+            if (nrow >= 0 && nrow < grid.length && ncol >= 0 && ncol < grid[row].length) {
+                char adjacentCellLetter = grid[nrow][ncol];
+                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, nrow, ncol, scanDirection, adjacentCellLetter));
+                Ship adjacentShip = fleet.getShipAt(nrow, ncol);
 
-                if (neighborLetter == thisLetter && !hasSameLetterNeighbor(grid, nRow, nCol, direction)) {
-                    return fleet.getShipAt(nRow, nCol);
-                }
+                if (adjacentShip == null || mightBePartOfAnotherShip) continue;
+                return adjacentShip;
             }
         }
 
         return null;
     }
-    private enum CellScanDirection { UP, DOWN, LEFT, RIGHT }
-    private static boolean hasSameLetterNeighbor(char[][] grid, int row, int col, CellScanDirection direction) {
-        int nRow = row + (direction == CellScanDirection.DOWN ? 1 : (direction == CellScanDirection.UP ? -1 : 0));
-        int nCol = col + (direction == CellScanDirection.RIGHT ? 1 : (direction == CellScanDirection.LEFT ? -1 : 0));
+    private static boolean hasSameLetterNeighbor(char[][] grid, int row, int col, GridScanDirection scanDirection, char scanLetter) {
+        int[][] positionsToCheck;
 
-        if (nRow >= 0 && nRow < grid.length && nCol >= 0 && nCol < grid[nRow].length) {
-            char thisLetter = grid[row][col];
-            char neighborLetter = grid[nRow][nCol];
+        if (scanDirection == GridScanDirection.UP || scanDirection == GridScanDirection.DOWN) {
+            positionsToCheck = new int[][]{{row, col + 1}, {row, col - 1}};
+        } else {
+            positionsToCheck = new int[][]{{row + 1, col}, {row - 1, col}};
+        }
 
-            if (direction == CellScanDirection.RIGHT || direction == CellScanDirection.LEFT) {
-                // Check left and right neighbors
-                return (col > 0 && grid[row][col - 1] == thisLetter) || (col < grid[row].length - 1 && grid[row][col + 1] == thisLetter);
-            } else {
-                // Check top and bottom neighbors
-                return (row > 0 && grid[row - 1][col] == thisLetter) || (row < grid.length - 1 && grid[row + 1][col] == thisLetter);
+        for (int[] position : positionsToCheck) {
+            int newRow = position[0];
+            int newCol = position[1];
+
+            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
+                if (grid[newRow][newCol] == scanLetter) {
+                    return true;
+                }
             }
         }
 
