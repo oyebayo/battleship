@@ -49,11 +49,8 @@ public class FleetMapper {
             }
 
             if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
-                char adjacentCellLetter = grid[newRow][newCol];
-                boolean mightBePartOfAnotherShip = hasSameLetterNeighbor(grid, newRow, newCol, scanDirection, adjacentCellLetter);
                 Ship adjacentShip = fleet.getShipAt(newRow, newCol);
-
-                if (adjacentShip == null || mightBePartOfAnotherShip) continue;
+                if (adjacentShip == null) continue;
 
                 return adjacentShip;
             }
@@ -61,28 +58,7 @@ public class FleetMapper {
 
         return null;
     }
-    private static boolean hasSameLetterNeighbor(char[][] grid, int row, int col, GridScanDirection scanDirection, char scanLetter) {
-        int[][] positionsToCheck;
 
-        if (scanDirection == GridScanDirection.UP || scanDirection == GridScanDirection.DOWN) {
-            positionsToCheck = new int[][]{{row, col + 1}, {row, col - 1}};
-        } else {
-            positionsToCheck = new int[][]{{row + 1, col}, {row - 1, col}};
-        }
-
-        for (int[] position : positionsToCheck) {
-            int newRow = position[0];
-            int newCol = position[1];
-
-            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
-                if (grid[newRow][newCol] == scanLetter) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
     private static char[][] transformToGrid(String[] gridStrings) {
         int rows = gridStrings.length;
         int cols = gridStrings[0].length();

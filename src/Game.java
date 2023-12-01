@@ -93,12 +93,12 @@ public class Game {
 	            int fleetNumber = scanner.nextInt();
 				scanner.nextLine(); // flush the newline character;
 
-	            if (fleetNumber < 1 || fleetNumber >= fleetMap.size()) {
+	            if (fleetNumber < 1 || fleetNumber > fleetMap.size()) {
 	                System.out.println("Invalid fleet number. Please enter a valid fleet number.");
 	                return;
 	            }
 
-	            Fleet newFleet = FleetMapper.createFleet(fleetMap.get(fleetNumber));
+	            Fleet newFleet = FleetMapper.createFleet(fleetMap.get(fleetNumber - 1));
 	            Player player = new Player(playerName, newFleet);
 	            players.add(player);
 	        }
@@ -157,9 +157,25 @@ public class Game {
     }
 
     private void processRankingCommand() {
-    	for(Player player : players){
-            System.out.println(player.getName() + " has " + player.getScore() + " points");
-        }
+		// Create a copy of the players list
+		List<Player> sortedPlayers = new ArrayList<>(players);
+
+		// Sort the copied list by score in descending order using a basic sorting algorithm
+		for (int i = 0; i < sortedPlayers.size() - 1; i++) {
+			for (int j = 0; j < sortedPlayers.size() - i - 1; j++) {
+				if (sortedPlayers.get(j).getScore() < sortedPlayers.get(j + 1).getScore()) {
+					// Swap elements if they are in the wrong order
+					Player temp = sortedPlayers.get(j);
+					sortedPlayers.set(j, sortedPlayers.get(j + 1));
+					sortedPlayers.set(j + 1, temp);
+				}
+			}
+		}
+
+		// Print the sorted ranking
+		for (Player player : sortedPlayers) {
+			System.out.println(player.getName() + " has " + player.getScore() + " points");
+		}
     }
 
     private void processInGameCommand() {
