@@ -189,6 +189,8 @@ public class Game {
 
         int points = getPointsForShot(targetPlayer, targetRow, targetColumn);
 		currentPlayer.addScore(points);
+
+		if (isOver()) currentPlayer.addScore(currentPlayer.getScore());
 		currentPlayerIndex = getNextPlayerIndex();
     }
 
@@ -202,9 +204,12 @@ public class Game {
 			System.out.println("Eliminated player");
 			return false;
 		}
-		if(targetRow > targetPlayer.getFleet().getMaxRows()
-			|| targetColumn > targetPlayer.getFleet().getMaxColumns()){
-				System.out.println("Invalid shot");
+		if(targetRow > targetPlayer.getFleet().getMaxRows() - 1
+			|| targetColumn > targetPlayer.getFleet().getMaxColumns() - 1
+			|| targetRow < 0
+			|| targetColumn < 0)
+		{
+			System.out.println("Invalid shot");
 			return false;
 		}
 		return true;
@@ -218,7 +223,6 @@ public class Game {
             case BLANK -> 0;
         };
 
-		if (isOver()) points = points * 2;
 		return points;
 	}
 
