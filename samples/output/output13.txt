@@ -1,0 +1,37 @@
+BB8 has 900 points
+R2D2 has 200 points
+C3PO has 140 points
+Next player: C3PO
+Self-inflicted shot
+BB8 has 1200 points
+C3PO has 1140 points
+R2D2 has 200 points
+Next player: R2D2
+Self-inflicted shot
+Self-inflicted shot
+*.**..*.CCC.
+*.....*.....
+*.........**
+*.**..*.***.
+*..CCC*.....
+***.......**
+BB8 has 1200 points
+C3PO has 1010 points
+R2D2 has 100 points
+Next player: R2D2
+BB8 has 1200 points
+C3PO has 1010 points
+R2D2 has -20 points
+Next player: R2D2
+BB8 has 1200 points
+C3PO has 1010 points
+R2D2 has 560 points
+R2D2
+*.**..*.***.
+*.....*.....
+*.........**
+*.**..*.***.
+*..CCC*.....
+***.......**
+..*******.
+BB8 won the game!

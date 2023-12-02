@@ -1,0 +1,36 @@
+3
+BB8
+9
+C3PO
+15
+R2D2
+15
+shoot 2 7 R2D2
+shoot 2 7 R2D2
+shoot 1 7 C3PO
+shoot 3 12 R2D2
+shoot 2 11 R2D2
+shoot 1 1 BB8
+shoot 1 11 R2D2
+shoot 1 10 R2D2
+shoot 1 6 C3PO
+shoot 1 3 C3PO
+shoot 1 10 R2D2
+shoot 2 3 C3PO
+shoot 2 8 R2D2
+shoot 1 3 BB8
+scores
+shoot 1 3 C3PO
+shoot 1 1 R2D2
+shoot 1 4 C3PO
+shoot 1 7 R2D2
+shoot 2 3 C3PO
+shoot 1 3 R2D2
+shoot 2 4 C3PO
+shoot 1 8 R2D2
+players
+fleet C3PO
+fleet R2D2
+fleet BB8
+scores
+quit

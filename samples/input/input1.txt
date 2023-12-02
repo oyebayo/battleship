@@ -1,0 +1,26 @@
+4
+Han Solo
+10
+Leia
+12
+Darth Vader
+15
+Kylo Ren
+15
+score BB8
+SCORE BB8
+SCORE Kylo Ren
+score Luke Skywalker
+player
+Player
+score Kylo
+score Kylo Ren
+fleet KyloRen
+Fleet Kylo Ren
+Quit
+PLAYERS
+SCORES
+fleet Kylo Ren
+scores
+players
+quit

@@ -1,0 +1,120 @@
+8
+Luke Skywalker
+16
+Yoda
+16
+BB8
+16
+BB9E
+16
+Han Solo
+21
+Rey
+21
+C3PO
+21
+R2D2
+21
+player
+shoot 10 1 Han Solo
+shoot 1 3 Rey
+shoot 1 3 C3PO
+shoot 1 3 R2D2
+shoot 1 3 Yoda
+shoot 1 3 Luke Skywalker
+shoot 1 3 BB8
+shoot 1 3 BB9E
+shoot 3 3 Han Solo
+shoot 3 3 Rey
+shoot 3 3 C3PO
+shoot 3 3 R2D2
+shoot 1 7 Yoda
+shoot 1 7 BB8
+shoot 1 7 Luke Skywalker
+shoot 1 7 BB9E
+shoot 1 4 Han Solo
+shoot 1 4 Rey
+shoot 1 4 C3PO
+shoot 1 4 R2D2
+shoot 2 1 Luke Skywalker
+shoot 2 1 Yoda
+shoot 2 1 BB8
+shoot 2 1 BB9E
+shoot 2 6 Han Solo
+shoot 2 6 Rey
+shoot 2 6 C3PO
+shoot 2 6 R2D2
+shoot 1 10 Yoda
+shoot 1 10 BB8
+shoot 1 10 BB9E
+shoot 7 24 Luke Skywalker
+shoot 3 6 Han Solo
+shoot 3 6 Rey
+shoot 3 6 C3PO
+shoot 3 2 Han Solo
+shoot 3 1 Yoda
+shoot 10 1 Luke Skywalker
+shoot 3 1 BB8
+shoot 3 1 BB9E
+shoot 1 7 Rey
+shoot 9 11 Han Solo
+fleet Han Solo
+shoot 1 7 C3PO
+shoot 1 7 R2D2
+shoot 3 2 Yoda
+shoot 3 2 Luke Skywalker
+shoot 3 2 BB8
+shoot 3 2 BB9E
+shoot 1 6 Rey
+shoot 1 6 Han Solo
+shoot 1 6 C3PO
+shoot 1 6 R2D2
+shoot 3 4 Yoda
+shoot 3 4 Luke Skywalker
+shoot 3 4 BB8
+shoot 3 4 BB9E
+score Yoda
+score Luke Skywalker
+player
+shoot 2 4 Rey
+shoot 10 1 Han Solo
+shoot 2 4 C3PO
+shoot 2 4 R2D2
+shoot 2 6 Yoda
+shoot 2 6 Luke Skywalker
+shoot 2 6 BB8
+shoot 2 6 BB9E
+shoot 1 4 Rey
+shoot 1 4 C3PO
+shoot 1 4 R2D2
+shoot 1 4 Yoda
+shoot 1 4 Luke Skywalker
+shoot 1 4 BB8
+shoot 1 4 BB9E
+scores
+shoot 2 6 Rey
+shoot 2 6 C3PO
+shoot 2 6 R2D2
+shoot 5 24 Han Solo
+shoot 1 1 Yoda
+shoot 1 1 BB8
+shoot 1 1 BB9E
+shoot 1 3 Luke Skywalker
+shoot 1 11 Rey
+shoot 1 11 C3PO
+shoot 8 24 Han Solo
+shoot 1 11 R2D2
+shoot 2 12 Yoda
+shoot 2 12 BB8
+shoot 2 12 BB9E
+shoot 2 11 Rey
+shoot 2 11 C3PO
+player
+shoot 2 11 R2D2
+players
+fleet Yoda
+fleet Luke Skywalker
+fleet Rey
+fleet Han Solo
+scores
+quit

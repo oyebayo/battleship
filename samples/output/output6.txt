@@ -1,0 +1,51 @@
+Invalid shot
+Self-inflicted shot
+Self-inflicted shot
+Eliminated player
+R2D2 has 1000 points
+C3PO has 640 points
+BB8 has 210 points
+Self-inflicted shot
+Self-inflicted shot
+Self-inflicted shot
+Next player: R2D2
+C3PO
+R2D2
+.
+.
+*
+*
+*
+*
+*
+.
+C
+C
+C
+.
+.
+D
+.
+*
+*
+*
+*
+*
+*
+D
+*
+*
+.
+.
+*
+*
+*
+*
+*
+*
+*
+.
+R2D2 has 880 points
+C3PO has 550 points
+BB8 has 210 points
+The game was not over yet...

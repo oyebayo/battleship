@@ -1,0 +1,17 @@
+C3PO
+R2D2
+Eliminated player
+Self-inflicted shot
+C3PO
+R2D2
+D.**..*.CCC.
+D.....*.....
+D.........CC
+D.**..*.***.
+D.....*.....
+D.........**
+..*******.
+C3PO has 1100 points
+BB8 has 700 points
+R2D2 has 200 points
+The game was not over yet...

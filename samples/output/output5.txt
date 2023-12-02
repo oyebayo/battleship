@@ -1,0 +1,61 @@
+Invalid shot
+C3PO
+R2D2
+BB9E
+Eliminated player
+Eliminated player
+Eliminated player
+Next player: C3PO
+Self-inflicted shot
+C3PO
+BB9E
+.
+.
+*
+*
+.
+.
+*
+.
+C
+C
+C
+.
+.
+*
+.
+*
+*
+.
+*
+*
+*
+.
+*
+*
+.
+.
+*
+*
+*
+*
+*
+*
+*
+.
+.
+.
+A
+A
+A
+A
+A
+A
+A
+.
+Nonexistent player
+C3PO has 940 points
+BB9E has 380 points
+R2D2 has 300 points
+BB8 has -60 points
+The game was not over yet...

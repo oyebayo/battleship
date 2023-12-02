@@ -1,0 +1,55 @@
+4
+Han Solo
+15
+Leia
+15
+Darth Vader
+16
+Kylo Ren
+20
+shoot 1 1 Leia
+shoot 1 1 Leia
+shoot 3 1 Darth Vader
+shoot 3 12 Han Solo
+shoot -1 1 Leia
+shoot 4 2 Leia
+shoot 2 13 Leia
+shoot 2 -1 Leia
+shoot 1 1 Luke Skywalker
+fleet Han Solo
+player
+shoot 1 1 Han Solo
+shoot 1 3 Leia
+shoot 1 4 Han Solo
+shoot 2 7 Han Solo
+shoot 1 11 Han Solo
+players
+shoot 1 1 Han Solo
+shoot 1 3 Darth Vader
+shoot 1 3 Kylo Ren
+shoot 2 7 Darth Vader
+shoot 3 11 Leia
+shoot 1 11 Darth Vader
+shoot 3 2 Leia
+shoot 2 5 Darth Vader
+shoot 3 12 Leia
+shoot 2 7 Darth Vader
+shoot 1 1 Leia
+shoot 3 2 Darth Vader
+shoot 1 1 Leia
+shoot 3 11 Darth Vader
+player
+shoot 1 1 Kylo Ren
+fleet Leia
+score Leia
+fleet Darth Vader
+fleet Kylo Ren
+score BB8
+score Luke Skywalker
+score Kylo
+score Kylo Ren
+fleet KyloRen
+fleet Kylo Ren
+scores
+players
+quit

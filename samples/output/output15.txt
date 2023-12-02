@@ -1,0 +1,70 @@
+Next player: Luke Skywalker
+Invalid shot
+Invalid shot
+..**BBB.CCC............C
+..CC***...A............C
+.******...A............C
+.*.....................C
+.*......A..............C
+.*.....................C
+.*.....................C
+.*.....................C
+..........*............C
+*......................C
+Yoda has 1150 points
+Luke Skywalker has 1310 points
+Next player: C3PO
+Self-inflicted shot
+Self-inflicted shot
+BB8 has 1680 points
+Luke Skywalker has 1450 points
+Han Solo has 1410 points
+Rey has 1410 points
+C3PO has 1350 points
+R2D2 has 1310 points
+Yoda has 1290 points
+BB9E has 1050 points
+Next player: Han Solo
+Luke Skywalker
+Yoda
+BB8
+BB9E
+Han Solo
+Rey
+C3PO
+R2D2
+*.**..*.***.
+*..****.....
+***.......CC
+*.**..*.CCC.
+*..****.....
+***.......CC
+..*****.***............C
+..*****...*............C
+.C*****...*............C
+.C.....................C
+.C......A..............C
+.C.....................C
+.C.....................C
+.C.....................C
+..........A............C
+A......................C
+..*****.CCC............*
+..CC***...A............*
+.******...A............*
+.*.....................*
+.*......A..............*
+.*.....................*
+.*.....................*
+.*.....................*
+..........*............*
+*......................*
+C3PO has 2650 points
+BB8 has 1820 points
+Han Solo has 1820 points
+BB9E has 1460 points
+Luke Skywalker has 1360 points
+R2D2 has 1220 points
+Yoda has 1200 points
+Rey has 1020 points
+The game was not over yet...

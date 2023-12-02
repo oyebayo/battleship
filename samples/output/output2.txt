@@ -1,0 +1,38 @@
+Self-inflicted shot
+Invalid shot
+Invalid shot
+Invalid shot
+Invalid shot
+Nonexistent player
+D.AA..B.CCC.
+D.....B.....
+D.........**
+Next player: Kylo Ren
+Leia
+Darth Vader
+Kylo Ren
+Eliminated player
+The game is over
+The game is over
+*.**..B.CCC.
+*.....B.....
+*.........**
+Leia has 3680 points
+*.**..*.***.
+*..****.....
+***.......**
+..*******.
+..........
+Nonexistent player
+Nonexistent player
+Nonexistent player
+Kylo Ren has 600 points
+Nonexistent player
+..*******.
+..........
+Leia has 3680 points
+Darth Vader has 1060 points
+Kylo Ren has 600 points
+Han Solo has 500 points
+Leia
+Leia won the game!

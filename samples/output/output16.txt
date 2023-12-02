@@ -1,0 +1,26 @@
+C3PO has 400 points
+BB8 has 340 points
+R2D2 has 210 points
+C3PO
+R2D2
+R2D2 has 1110 points
+C3PO has 640 points
+BB8 has 280 points
+Eliminated player
+R2D2 has 1560 points
+C3PO has 790 points
+BB8 has 280 points
+Next player: C3PO
+C3PO
+..*****.CCC.
+***.........
+....***.CCC.
+.*.*********..
+**........***.
+.*............
+..*******.
+..........
+C3PO has 1860 points
+R2D2 has 1410 points
+BB8 has 280 points
+C3PO won the game!

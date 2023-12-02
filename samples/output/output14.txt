@@ -1,0 +1,53 @@
+Rey has 910 points
+Next player: Yoda
+C3PO has 1350 points
+R2D2 has 1350 points
+Rey has 1350 points
+BB8 has 1290 points
+BB9E has 1290 points
+Yoda has 1290 points
+*.**..*.***.
+*..****.....
+***.......CC
+..*****.***.
+..*****...A.
+..*****...A.
+BB8 has 1500 points
+BB9E has 1500 points
+Yoda has 1500 points
+C3PO has 1260 points
+R2D2 has 1260 points
+Rey has 1260 points
+Yoda
+BB8
+BB9E
+Rey
+C3PO
+R2D2
+Yoda
+BB8
+BB9E
+R2D2
+BB8 has 1700 points
+Yoda has 1700 points
+BB9E has 1500 points
+C3PO has 1260 points
+R2D2 has 1260 points
+Rey has 1260 points
+Next player: BB9E
+BB8 has 1700 points
+BB9E has 1700 points
+Yoda has 1700 points
+C3PO has 1260 points
+R2D2 has 1260 points
+Rey has 1260 points
+Yoda
+BB8
+BB9E
+*.**..*.***.
+*..****.....
+***.......CC
+..*****.***.
+..*****...*.
+..*****...*.
+The game was not over yet...

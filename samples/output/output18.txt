@@ -1,0 +1,30 @@
+Next player: John
+***GG.R.
+......R.
+John has 300 points
+Next player: Doe
+Next player: Laura
+***GG.*.
+......*.
+*****.*.
+......*.
+Next player: Laura
+John
+Laura
+John has 440 points
+Eliminated player
+Self-inflicted shot
+Invalid shot
+Laura has 600 points
+John has 440 points
+Doe has 0 points
+Nonexistent player
+Nonexistent player
+Invalid command
+Next player: John
+Laura has 1800 points
+John has 440 points
+Doe has 0 points
+Laura
+The game is over
+Laura won the game!
