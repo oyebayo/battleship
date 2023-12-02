@@ -1,6 +1,6 @@
 
 public class Cell {
-	static final char WRECK_CHARACTER = '*';
+	public static final char WRECK_CHARACTER = '*';
 	private int row;
 	private int column;
 	private char letter;

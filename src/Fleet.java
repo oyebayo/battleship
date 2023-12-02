@@ -38,18 +38,18 @@ public class Fleet {
 		}
 		return false;
 	}
-	
+
 	public HitResult hitObjectAt(int row, int column) {
 		Ship ship = getShipAt(row, column);
 		HitResult result = new HitResult();
 		if (ship == null) {
 			result.HitType = HitType.BLANK;
-		}else {
+		} else {
 			result.CellCount = ship.getSize();
-			result.HitType = ship.isWreck()? HitType.WRECK : HitType.SHIP;
+			result.HitType = ship.isWreck() ? HitType.WRECK : HitType.SHIP;
 			ship.markAsWreck(); // this will change the ship characters to asterisk if not already changed
 		}
-		
+
 		return result;
 	}
 	

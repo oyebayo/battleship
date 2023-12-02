@@ -34,18 +34,10 @@ public class FleetMapper {
             int newCol = col;
 
             switch (scanDirection) {
-                case UP:
-                    newRow--;
-                    break;
-                case DOWN:
-                    newRow++;
-                    break;
-                case LEFT:
-                    newCol--;
-                    break;
-                case RIGHT:
-                    newCol++;
-                    break;
+                case UP -> newRow--;
+                case DOWN -> newRow++;
+                case LEFT -> newCol--;
+                case RIGHT -> newCol++;
             }
 
             if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
