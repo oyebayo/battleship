@@ -25,3 +25,11 @@ _Figure 2_ has two possible representations of the grid from _Figure 1_. If, at 
 *Figure 3: Example of the representation of the fleet’s state.*
 
 The goal of this project is to program, in Java, the version of the Battleship game described in this document. With information about the players' names, the arrangement of their fleets, and the sequence of shots taken, the program should be able to indicate, at any point in the game, each player’s score and fleet state, the players' ranking, and which players are still in the game. It is also intended that, while the game is not over, the program can indicate who the next player to take a shot is.
+
+[System Specification](docs/specification.md)
+
+[Game Rules](docs/rules.md)
+
+[System Specification](docs/example.md)
+
+
