@@ -161,9 +161,10 @@ public class Game {
 		List<Player> sortedPlayers = new ArrayList<>(players);
 
 		// Sort the copied list by score in descending order using a basic sorting algorithm
+		// If scores are tied, sort by name in ascending alphabetic order
 		for (int i = 0; i < sortedPlayers.size() - 1; i++) {
 			for (int j = 0; j < sortedPlayers.size() - i - 1; j++) {
-				if (sortedPlayers.get(j).getScore() < sortedPlayers.get(j + 1).getScore()) {
+				if (comparePlayers(sortedPlayers.get(j), sortedPlayers.get(j + 1)) > 0) {
 					// Swap elements if they are in the wrong order
 					Player temp = sortedPlayers.get(j);
 					sortedPlayers.set(j, sortedPlayers.get(j + 1));
@@ -177,6 +178,16 @@ public class Game {
 			System.out.println(player.getName() + " has " + player.getScore() + " points");
 		}
     }
+
+	private int comparePlayers(Player p1, Player p2) {
+		if (p1.getScore() != p2.getScore()) {
+			// Sort by score in descending order
+			return Integer.compare(p2.getScore(), p1.getScore());
+		} else {
+			// If scores are tied, sort by name in ascending alphabetic order
+			return p1.getName().compareTo(p2.getName());
+		}
+	}
 
     private void processInGameCommand() {
         for(Player player : players){
