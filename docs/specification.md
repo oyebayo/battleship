@@ -1,6 +1,9 @@
 ## System Specification
 
-The application interface should be simple so that it can be used in different environments and facilitate the testing process automation. For these reasons, the input and output must adhere to the precise format specified in this section. You can assume that the input complies with the value and format constraints indicated, meaning that the user does not make errors beyond those foreseen in this document. 
+The application interface should be simple so that it can be used in different environments and facilitate the testing process automation. For these reasons, the input and output must adhere to the precise format specified in this section. 
+
+> [!Note]
+> You can assume that the input complies with the value and format constraints indicated, meaning that the user does not make errors beyond those foreseen in this document. 
 
 The program reads lines from the standard input (System.in) and from the text file named ```fleets.txt```, stored in the ***current directory***. It writes lines to the standard output (System.out) and is case sensitive (for example, the words “quit” and “Quit” are different). To simplify, in the rest of the document, the word "fleet" may be used to refer to the arrangement of the fleet on the grid.
 
