@@ -1,4 +1,4 @@
-## Game Rules
+## main.Game Rules
 
 Two or more players compete against each other. Before the game begins, each player arranges their ships on their grid (being required to have at least one boat), and the order in which players play is defined. One player takes a turn at a time. The player taking the turn rotates, respecting the previously defined order, and considering that after the last player, it is the first player’s turn again. For example, if there are four players identified by the names A, B, C, and D, and this is the order in which they play: the first player to play is player A; after A plays, it is the turn of player B; after B plays, it is the turn of player C; after C plays, it is the turn of player D; after D plays, it is again the turn of player A.
 

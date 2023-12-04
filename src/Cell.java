@@ -1,8 +1,7 @@
-
 public class Cell {
-	public static final char WRECK_CHARACTER = '*';
-	private int row;
-	private int column;
+	private static final char WRECK_CHARACTER = '*';
+	private final int row;
+	private final int column;
 	private char letter;
 	public Cell(int row, int column, char letter) {
 		this.row = row;

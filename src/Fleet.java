@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fleet {
-	private int maxColumns;
-	private int maxRows;
-	private List<Ship> ships;
+	private final int maxColumns;
+	private final int maxRows;
+	private final List<Ship> ships;
 
 	public Fleet(int maxRows, int maxColumns){
 		this.maxRows = maxRows;
 		this.maxColumns = maxColumns;
-		ships = new ArrayList<Ship>(0);
+		ships = new ArrayList<>(0);
 	}
 
 	public int getMaxRows(){
@@ -41,12 +41,12 @@ public class Fleet {
 
 	public HitResult hitObjectAt(int row, int column) {
 		Ship ship = getShipAt(row, column);
-		HitResult result = new HitResult();
+		HitResult result;
 		if (ship == null) {
-			result.HitType = HitType.BLANK;
+			result = new HitResult(HitType.BLANK);
 		} else {
-			result.CellCount = ship.getSize();
-			result.HitType = ship.isWreck() ? HitType.WRECK : HitType.SHIP;
+			var hitType = ship.isWreck() ? HitType.WRECK : HitType.SHIP;
+			result = new HitResult(hitType, ship.getSize());
 			ship.markAsWreck(); // this will change the ship characters to asterisk if not already changed
 		}
 

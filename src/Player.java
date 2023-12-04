@@ -1,7 +1,7 @@
 public class Player {
-    private String name;
+    private final String name;
     private int score;
-    private Fleet fleet;
+    private final Fleet fleet;
 
     public Player(String name, Fleet fleet){
         score = 0;

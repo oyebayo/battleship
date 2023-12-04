@@ -16,7 +16,7 @@ Player
 score Kylo
 score Kylo Ren
 fleet KyloRen
-Fleet Kylo Ren
+main.Fleet Kylo Ren
 Quit
 PLAYERS
 SCORES

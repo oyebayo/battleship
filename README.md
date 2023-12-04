@@ -28,7 +28,7 @@ The goal of this project is to program, in Java, the version of the Battleship g
 
 [System Specification](docs/specification.md)
 
-[Game Rules](docs/rules.md)
+[main.Game Rules](docs/rules.md)
 
 [System Specification](docs/example.md)
 

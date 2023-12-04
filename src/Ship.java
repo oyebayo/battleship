@@ -19,6 +19,7 @@ public class Ship {
 		return cells.size();
 	}
 	public boolean isWreck() {
+		if (cells.isEmpty()) return false;
 		//no need to check all the cells
 		return cells.get(0).isHit();
 	}

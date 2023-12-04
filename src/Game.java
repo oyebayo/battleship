@@ -9,11 +9,11 @@ public class Game {
 	private static final int MIN_PLAYERS = 2;
 	private static final String FLEET_FILE_PATH = "fleets.txt";
 	
-	private List<String[]> fleetMap;
-	private List<Player> players;
+	private final List<String[]> fleetMap;
+	private final List<Player> players;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
-	private Scanner scanner;
+	private final Scanner scanner;
 	
 	public Game() {
 		this.playersInitialized = false;
@@ -47,7 +47,7 @@ public class Game {
                 fleetCount++;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Fleet file could not be loaded.");
+            System.out.println("main.Fleet file could not be loaded.");
         }
 		return fleetCount;
 	}
@@ -243,13 +243,11 @@ public class Game {
 
 	private int getPointsForShot(Player targetPlayer, int targetRow, int targetColumn) {
 		HitResult result = targetPlayer.getFleet().hitObjectAt(targetRow, targetColumn);
-		int points = switch (result.HitType) {
-			case SHIP -> result.CellCount * 100;
-			case WRECK -> result.CellCount * -30;
+        return switch (result.getHitType()) {
+			case SHIP -> result.getCellCount() * 100;
+			case WRECK -> result.getCellCount() * -30;
 			case BLANK -> 0;
 		};
-
-		return points;
 	}
 
 	private int getNextPlayerIndex() {
@@ -292,7 +290,7 @@ public class Game {
             }
         }
 
-		int highScore = winner.getScore();
+		int highScore = winner != null ? winner.getScore() : 0;
 		if (moreThanOnePlayerHasScore(highScore)){
 			for (Player player : players) {
 				if (!player.isEliminated()) {

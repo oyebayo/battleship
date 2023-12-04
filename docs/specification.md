@@ -81,7 +81,7 @@ The lines with score-commands have the following format:<br>
 - In the remaining cases, the line has the following format, where X represents the score of the player referred to in the command:<br>
 ```playerName has X points←```
 
-### Fleet-Command
+### main.Fleet-Command
 
 The fleet-command indicates that we want to visualise the state of the fleet of the player with the given name, at the current moment in the game. This command does not change the game’s state. The lines with fleet-commands have the following format:<br>
 ```fleet playerName←```<br>
@@ -101,7 +101,7 @@ If playerName and X represent, respectively, the name and score of a player at t
 ```playerName has X points←```<br>
 The lines should be written in descending order of score; in case of a tie in score, in lexicographical order of name.
 
-### In-Game-Command
+### In-main.Game-Command
 
 The in-game-command indicates that we want to know the names of all players in play (those whose fleets have not been fully sunk), at the current moment in the game. This command does not change the game’s state. The lines with in-game-commands have the following format:<br>
 ```players←```<br>
