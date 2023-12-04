@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -14,34 +17,27 @@ class PlayerTest {
         D.....B.....
         D.........CC
         */
+        var shipCells = Arrays.asList(
+                new Cell(0, 0, 'D'),
+                new Cell(1, 0, 'D'),
+                new Cell(2, 0, 'D'),
+                new Cell(0, 1, 'A'),
+                new Cell(0, 2, 'A'),
+                new Cell(0, 3, 'A'),
+                new Cell(0, 6, 'B'),
+                new Cell(1, 6, 'B'),
+                new Cell(0, 8, 'C'),
+                new Cell(0, 9, 'C'),
+                new Cell(0, 10, 'C'),
+                new Cell(2, 10, 'C'),
+                new Cell(2, 11, 'C')
+        );
 
-        Ship ship1 = new Ship();
-        ship1.getCells().add(new Cell(0, 0, 'D'));
-        ship1.getCells().add(new Cell(1, 0, 'D'));
-        ship1.getCells().add(new Cell(2, 0, 'D'));
-        fleet.addShip(ship1);
-
-        Ship ship2 = new Ship();
-        ship2.getCells().add(new Cell(0, 1, 'A'));
-        ship2.getCells().add(new Cell(0, 2, 'A'));
-        ship2.getCells().add(new Cell(0, 3, 'A'));
-        fleet.addShip(ship2);
-
-        Ship ship3 = new Ship();
-        ship3.getCells().add(new Cell(0, 6, 'B'));
-        ship3.getCells().add(new Cell(1, 6, 'B'));
-        fleet.addShip(ship3);
-
-        Ship ship4 = new Ship();
-        ship4.getCells().add(new Cell(0, 8, 'C'));
-        ship4.getCells().add(new Cell(0, 9, 'C'));
-        ship4.getCells().add(new Cell(0, 10, 'C'));
-        fleet.addShip(ship4);
-
-        Ship ship5 = new Ship();
-        ship5.getCells().add(new Cell(2, 10, 'C'));
-        ship5.getCells().add(new Cell(2, 11, 'C'));
-        fleet.addShip(ship5);
+        fleet.addShip(new Ship(shipCells.stream().limit(3).toList()));
+        fleet.addShip(new Ship(shipCells.stream().skip(3).limit(3).toList()));
+        fleet.addShip(new Ship(shipCells.stream().skip(6).limit(2).toList()));
+        fleet.addShip(new Ship(shipCells.stream().skip(8).limit(3).toList()));
+        fleet.addShip(new Ship(shipCells.stream().skip(11).limit(2).toList()));
     }
 
     @Test

@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Ship {
 	private final List<Cell> cells;
-	public Ship(){
-		cells = new ArrayList<>(0);
+	public Ship(List<Cell> shipCells){
+		cells = shipCells;
 	}
 	public List<Cell> getCells() {
 		return cells;

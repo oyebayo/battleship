@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 public class FleetMapper {
     public static Fleet createFleet(String[] fleetStrings){
         char[][] grid = transformToGrid(fleetStrings);
@@ -16,8 +18,9 @@ public class FleetMapper {
                 Ship neighbourShip = findShipAtAdjacentCell(grid, i, j, fleet);
                 // If no adjacent ship found, create a new ship ID and add the current cell
                 if (neighbourShip == null) {
-                    Ship ship = new Ship();
-                    ship.getCells().add(thisCell);
+                    List<Cell> shipCells = new ArrayList<>();
+                    shipCells.add(thisCell);
+                    Ship ship = new Ship(shipCells);
                     fleet.addShip(ship);
                 } else {
                     neighbourShip.getCells().add(thisCell);
