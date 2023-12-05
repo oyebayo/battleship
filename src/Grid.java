@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
-    public enum GridScanDirection { UP, DOWN, LEFT, RIGHT }
     private final char[][] grid;
     public Grid(String[] gridStrings){
         int rows = gridStrings.length;
@@ -28,7 +27,7 @@ public class Grid {
                 }
 
                 Cell thisCell = new Cell(i, j, currentChar);
-                Ship neighbourShip = findAnyShipAdjacentToCell(i, j, fleet);
+                Ship neighbourShip = findAnyAdjacentShipWithSameLabel(i, j, fleet);
                 // If no adjacent ship found, create a new ship ID and add the current cell
                 if (neighbourShip == null) {
                     List<Cell> shipCells = new ArrayList<>();
@@ -43,7 +42,7 @@ public class Grid {
         return fleet;
     }
 
-    public Ship findAnyShipAdjacentToCell(int row, int col, Fleet fleet) {
+    public Ship findAnyAdjacentShipWithSameLabel(int row, int col, Fleet fleet) {
         for (GridScanDirection scanDirection : GridScanDirection.values()) {
             int newRow = row;
             int newCol = col;

@@ -34,5 +34,10 @@ public class Cell {
     public char getLetter() {
         return letter;
     }
+
+	@Override
+	public String toString() {
+		return letter + " (" + row + ", " + column + ")";
+	}
 	
 }

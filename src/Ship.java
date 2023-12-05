@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
+	public static final String HAS_NO_CELLS = "NoCell Ship";
 	private final List<Cell> cells;
 	public Ship(List<Cell> shipCells){
 		cells = shipCells;
@@ -47,5 +48,36 @@ public class Ship {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		if (cells.isEmpty()) return HAS_NO_CELLS;
+
+		Cell firstCell = cells.get(0);
+		char letter = firstCell.getLetter();
+		int row = firstCell.getRow();
+		int column = firstCell.getColumn();
+		int size = cells.size();
+
+		String orientation = getOrientation().name();
+
+		return String.format("%d%s at (%d,%d), %s", size, letter, row, column, orientation);
+	}
+
+	public ShipOrientation getOrientation() {
+		if (cells.size() <= 1) return ShipOrientation.SINGLE;
+
+		int hCount = 0;
+		int vCount = 0;
+		var firstCell = cells.get(0);
+		for(Cell cell : cells.subList(1, cells.size())){
+			if (cell.getRow() == firstCell.getRow()) hCount++;
+			if (cell.getColumn() == firstCell.getColumn()) vCount++;
+		}
+
+		if (hCount >= 1 && vCount == 0) return ShipOrientation.HORIZONTAL;
+		else if (vCount >= 1 && hCount == 0) return ShipOrientation.VERTICAL;
+		else return ShipOrientation.UNKNOWN;
 	}
 }

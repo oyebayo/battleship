@@ -48,51 +48,69 @@ public class GridTest {
     }
 
     @Test
-    public void testFindAnyShipAdjacentToCell() {
+    public void testFindAnyAdjacentShipWithSameLabel_adjacentVertical() {
+        Grid grid = new Grid(gridStrings);
+
+        Ship neighbourShip = new Ship(List.of(
+                new Cell(0, 0, 'A'),
+                new Cell(1, 0, 'A'),
+                new Cell(2, 0, 'A')
+        ));
+        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+
+        Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
+
+        assertEquals(3, ship.getCells().size());
+        assertEquals('A', ship.getLabel());
+        assertEquals(ShipOrientation.VERTICAL, ship.getOrientation());
+
+    }
+
+    @Test
+    public void testFindAnyAdjacentShipWithSameLabel_adjacentHorizontal() {
+        Grid grid = new Grid(gridStrings);
+
+        Ship neighbourShip = new Ship(List.of(
+                new Cell(1, 3, 'B'),
+                new Cell(1, 4, 'B'),
+                new Cell(1, 5, 'B')
+        ));
+        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+
+        Ship ship = grid.findAnyAdjacentShipWithSameLabel(1, 6, fleet);
+
+        assertEquals(3, ship.getCells().size());
+        assertEquals('B', ship.getLabel());
+        assertEquals(ShipOrientation.HORIZONTAL, ship.getOrientation());
+
+    }
+
+    @Test
+    public void testFindAnyAdjacentShipWithSameLabel_notAdjacent() {
+        Grid grid = new Grid(gridStrings);
+
+        Ship neighbourShip = new Ship(List.of(
+                new Cell(1, 0, 'A'),
+                new Cell(2, 0, 'A')
+        ));
+        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+
+        Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
+        assertNull(ship);
+    }
+
+    @Test
+    public void testFindAnyAdjacentShipWithSameLabel_differentLabel() {
         Grid grid = new Grid(gridStrings);
 
         Ship neighbourShip = new Ship(List.of(
                 new Cell(0, 0, 'D'),
-                new Cell(1, 0, 'D')
-        ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
-
-        Ship ship = grid.findAnyShipAdjacentToCell(0, 1, fleet);
-
-        assertEquals(2, ship.getCells().size());
-        assertEquals('D', ship.getLabel());
-
-    }
-
-    @Test
-    public void testFindAnyShipAdjacentToCell2() {
-        Grid grid = new Grid(gridStrings);
-
-        Ship neighbourShip = new Ship(List.of(
-                new Cell(1, 3, 'C'),
-                new Cell(1, 4, 'C'),
-                new Cell(1, 5, 'C')
-        ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
-
-        Ship ship = grid.findAnyShipAdjacentToCell(1, 6, fleet);
-
-        assertEquals(3, ship.getCells().size());
-        assertEquals('C', ship.getLabel());
-
-    }
-
-    @Test
-    public void testFindAnyShipAdjacentToCell3() {
-        Grid grid = new Grid(gridStrings);
-
-        Ship neighbourShip = new Ship(List.of(
                 new Cell(1, 0, 'D'),
                 new Cell(2, 0, 'D')
         ));
         Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
 
-        Ship ship = grid.findAnyShipAdjacentToCell(0, 1, fleet);
+        Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
         assertNull(ship);
     }
 }

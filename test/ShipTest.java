@@ -11,20 +11,30 @@ public class ShipTest {
     private List<Cell> noCells;
     private ArrayList<Cell> overlappingShipCells;
     private ArrayList<Cell> farShipCells;
+    private ArrayList<Cell> wideShipCells;
+    private ArrayList<Cell> singleCell;
 
     @BeforeEach
     void beforeEach() {
         shipCells = new ArrayList<>();
         shipCells.add(new Cell(0, 0, 'A'));
-        shipCells.add(new Cell(0, 1, 'A'));
-        shipCells.add(new Cell(0, 2, 'A'));
+        shipCells.add(new Cell(1, 0, 'A'));
+        shipCells.add(new Cell(2, 0, 'A'));
+
+        wideShipCells = new ArrayList<>();
+        wideShipCells.add(new Cell(0, 0, 'B'));
+        wideShipCells.add(new Cell(0, 1, 'B'));
+        wideShipCells.add(new Cell(0, 2, 'B'));
 
         noCells = new ArrayList<>();
 
+        singleCell = new ArrayList<>();
+        singleCell.add(new Cell(2, 1, 'X'));
+
         overlappingShipCells = new ArrayList<>();
+        overlappingShipCells.add(new Cell(0, 0, 'A'));
         overlappingShipCells.add(new Cell(0, 1, 'A'));
-        overlappingShipCells.add(new Cell(1, 1, 'A'));
-        overlappingShipCells.add(new Cell(2, 1, 'A'));
+        overlappingShipCells.add(new Cell(0, 2, 'A'));
 
         farShipCells = new ArrayList<>();
         farShipCells.add(new Cell(1, 1, 'A'));
@@ -94,11 +104,50 @@ public class ShipTest {
         assertFalse(ship.overlapsWith(otherShip));
     }
 
+    @Test
+    public void testShipGetOrientation() {
+        Ship ship = new Ship(wideShipCells);
+        assertEquals(ShipOrientation.HORIZONTAL, ship.getOrientation());
+
+        ship = new Ship(singleCell);
+        assertEquals(ShipOrientation.SINGLE, ship.getOrientation());
+
+        ship = new Ship(noCells);
+        assertEquals(ShipOrientation.SINGLE, ship.getOrientation());
+
+        ship =  new Ship(shipCells);
+        assertEquals(ShipOrientation.VERTICAL, ship.getOrientation());
+
+        ship.getCells().add(new Cell(0, 1, 'A'));
+        assertEquals(ShipOrientation.UNKNOWN, ship.getOrientation());
+
+    }
+
+    @Test
+    public void testShipToString() {
+        Ship ship = new Ship(wideShipCells);
+        assertEquals("3B at (0,0), HORIZONTAL", ship.toString());
+
+        ship = new Ship(singleCell);
+        assertEquals("1X at (2,1), SINGLE", ship.toString());
+
+        ship = new Ship(noCells);
+        assertEquals(Ship.HAS_NO_CELLS, ship.toString());
+
+        ship = new Ship(shipCells);
+        assertEquals("3A at (0,0), VERTICAL", ship.toString());
+
+        ship.getCells().add(new Cell(0, 1, 'A'));
+        assertEquals("4A at (0,0), UNKNOWN", ship.toString());
+    }
+
     @AfterEach
     void afterEach() {
         shipCells = null;
         noCells = null;
         overlappingShipCells = null;
         farShipCells = null;
+        wideShipCells = null;
+        singleCell = null;
     }
 }
