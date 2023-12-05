@@ -7,6 +7,8 @@ import java.io.File;
 
 public class Game {
 	private static final int MIN_PLAYERS = 2;
+	private static final int POINTS_FOR_SHIP_HIT = 100;
+	private static final int POINTS_FOR_WRECK_HIT = -30;
 	private static final String FLEET_FILE_PATH = "fleets.txt";
 	
 	private final List<String[]> fleetFileContents;
@@ -242,8 +244,8 @@ public class Game {
 	private int getPointsForShot(Player targetPlayer, int targetRow, int targetColumn) {
 		HitResult result = targetPlayer.getFleet().hitObjectAt(targetRow, targetColumn);
         return switch (result.getHitType()) {
-			case SHIP -> result.getCellCount() * 100;
-			case WRECK -> result.getCellCount() * -30;
+			case SHIP -> result.getCellCount() * POINTS_FOR_SHIP_HIT;
+			case WRECK -> result.getCellCount() * POINTS_FOR_WRECK_HIT;
 			case BLANK -> 0;
 		};
 	}
