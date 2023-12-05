@@ -1,0 +1,1 @@
+public enum GridScanDirection { UP, DOWN, LEFT, RIGHT }
