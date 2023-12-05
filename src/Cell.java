@@ -1,5 +1,7 @@
 public class Cell {
-	private static final char WRECK_CHARACTER = '*';
+	public static final char WRECK_CHARACTER = '*';
+	public static final char BLANK_CHARACTER = '.';
+	public static final char NULL_CHARACTER = 0;
 	private final int row;
 	private final int column;
 	private char letter;

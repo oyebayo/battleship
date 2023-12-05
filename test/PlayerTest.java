@@ -2,7 +2,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +13,8 @@ class PlayerTest {
 
     @BeforeEach
     void beforeEach() {
-        fleet = new Fleet(3, 12);
+        List<Ship> ships = new ArrayList<>();
+        fleet = new Fleet(ships, 3, 12);
         /*
         DAAA..B.CCC.
         D.....B.....

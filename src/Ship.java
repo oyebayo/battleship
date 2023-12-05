@@ -9,7 +9,8 @@ public class Ship {
 	public List<Cell> getCells() {
 		return cells;
 	}
-	
+
+
 	public void markAsWreck() {
         for (Cell cell : cells) {
             cell.hit();
@@ -18,10 +19,12 @@ public class Ship {
 	public int getSize() {
 		return cells.size();
 	}
+	public char getLabel() {
+		if (cells == null || cells.isEmpty()) return Cell.NULL_CHARACTER;
+		return cells.get(0).getLetter();
+	}
 	public boolean isWreck() {
-		if (cells.isEmpty()) return false;
-		//no need to check all the cells
-		return cells.get(0).isHit();
+		return cells.stream().allMatch(Cell::isHit);
 	}
 	
 	public boolean canFitWithinDimensions(int maxRows, int maxColumns) {

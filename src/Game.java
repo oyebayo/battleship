@@ -9,7 +9,7 @@ public class Game {
 	private static final int MIN_PLAYERS = 2;
 	private static final String FLEET_FILE_PATH = "fleets.txt";
 	
-	private final List<String[]> fleetMap;
+	private final List<String[]> fleetFileContents;
 	private final List<Player> players;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
@@ -19,7 +19,7 @@ public class Game {
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
 		this.players = new ArrayList<>();
-		this.fleetMap = new ArrayList<>();
+		this.fleetFileContents = new ArrayList<>();
 	}
 	
 	private int loadFleets() {
@@ -32,22 +32,22 @@ public class Game {
                 // Consume the newline after columns
                 fileScanner.nextLine();
 
-                List<String> fleetGrid = new ArrayList<>();
+                List<String> fleetStrings = new ArrayList<>();
 
                 // Read each row of the fleet grid
                 for (int i = 0; i < rows; i++) {
                 	String nextLine = fileScanner.nextLine();
                 	// stop reading upon finding a bad row in the fleet file
                 	if (nextLine.length() != columns) return fleetCount;  
-                    fleetGrid.add(nextLine);
+                    fleetStrings.add(nextLine);
                 }
 
                 // Add the fleet grid to the list
-                fleetMap.add(fleetGrid.toArray(new String[0]));
+				fleetFileContents.add(fleetStrings.toArray(new String[0]));
                 fleetCount++;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("main.Fleet file could not be loaded.");
+            System.out.println("Fleet file could not be loaded.");
         }
 		return fleetCount;
 	}
@@ -76,7 +76,8 @@ public class Game {
 	}
 	
 	private void initializePlayers() {
-	    try {
+	    if (playersInitialized) return;
+		try {
 	        //System.out.print("Initializing players\nHow many players are there? ");
 	        int playerCount = scanner.nextInt();
 			scanner.nextLine(); // flush the newline character;
@@ -93,12 +94,13 @@ public class Game {
 	            int fleetNumber = scanner.nextInt();
 				scanner.nextLine(); // flush the newline character;
 
-	            if (fleetNumber < 1 || fleetNumber > fleetMap.size()) {
+	            if (fleetNumber < 1 || fleetNumber > fleetFileContents.size()) {
 	                System.out.println("Invalid fleet number. Please enter a valid fleet number.");
 	                return;
 	            }
 
-	            Fleet newFleet = FleetMapper.createFleet(fleetMap.get(fleetNumber - 1));
+	            Grid grid = new Grid(fleetFileContents.get(fleetNumber - 1));
+				Fleet newFleet = grid.ConvertToFleet();
 	            Player player = new Player(playerName, newFleet);
 	            players.add(player);
 	        }

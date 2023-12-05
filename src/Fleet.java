@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Fleet {
@@ -6,14 +7,18 @@ public class Fleet {
 	private final int maxRows;
 	private final List<Ship> ships;
 
-	public Fleet(int maxRows, int maxColumns){
+	public Fleet(List<Ship> ships, int maxRows, int maxColumns){
 		this.maxRows = maxRows;
 		this.maxColumns = maxColumns;
-		ships = new ArrayList<>(0);
+		this.ships = ships;
 	}
 
 	public int getMaxRows(){
 		return maxRows;
+	}
+
+	public Iterator<Ship> iterator() {
+		return ships.iterator();
 	}
 
 	public int getMaxColumns(){
@@ -84,4 +89,8 @@ public class Fleet {
         }
 		return resultBuilder.toString();
     }
+
+	public int size() {
+		return ships.size();
+	}
 }
