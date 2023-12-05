@@ -21,34 +21,30 @@ public class Game {
 		this.players = new ArrayList<>();
 		this.fleetFileContents = new ArrayList<>();
 	}
-	
+
 	private int loadFleets() {
 		int fleetCount = 0;
 		try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
-            while (fileScanner.hasNext()) {
-                int rows = fileScanner.nextInt();
-                int columns = fileScanner.nextInt();
+			while (fileScanner.hasNext()) {
+				int rows = fileScanner.nextInt();
+				int columns = fileScanner.nextInt();
+				fileScanner.nextLine(); // Consume the newline after columns
 
-                // Consume the newline after columns
-                fileScanner.nextLine();
+				List<String> fleetStrings = new ArrayList<>();
+				for (int i = 0; i < rows; i++) {
+					String nextLine = fileScanner.nextLine();
+					if (nextLine.length() != columns) break;
+					fleetStrings.add(nextLine);
+				}
 
-                List<String> fleetStrings = new ArrayList<>();
-
-                // Read each row of the fleet grid
-                for (int i = 0; i < rows; i++) {
-                	String nextLine = fileScanner.nextLine();
-                	// stop reading upon finding a bad row in the fleet file
-                	if (nextLine.length() != columns) return fleetCount;  
-                    fleetStrings.add(nextLine);
-                }
-
-                // Add the fleet grid to the list
-				fleetFileContents.add(fleetStrings.toArray(new String[0]));
-                fleetCount++;
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Fleet file could not be loaded.");
-        }
+				if (fleetStrings.size() == rows) {
+					fleetFileContents.add(fleetStrings.toArray(new String[0]));
+					fleetCount++;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Fleet file could not be loaded.");
+		}
 		return fleetCount;
 	}
 
