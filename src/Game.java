@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -10,20 +11,37 @@ public class Game {
 	private static final int POINTS_FOR_SHIP_HIT = 100;
 	private static final int POINTS_FOR_WRECK_HIT = -30;
 	private static final String FLEET_FILE_PATH = "fleets.txt";
-	
+
+	// Instance variables
 	private final List<String[]> fleetFileContents;
 	private final List<Player> players;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
 	private final Scanner scanner;
+
+	private PrintStream output;
+
+	@FunctionalInterface
+	interface PlayerAction {
+		void apply(Player player);
+	}
 	
 	public Game() {
+		// Initializes the game with default values
 		this.playersInitialized = false;
 		this.scanner = new Scanner(System.in);
+		this.output = System.out;
 		this.players = new ArrayList<>();
 		this.fleetFileContents = new ArrayList<>();
 	}
 
+	// Allows changing the PrintStream for output
+	public void setOutput(PrintStream output) {
+		this.output = output;
+	}
+
+	// Method to load fleets from a file
+	// Reads the fleet file and stores the fleet configurations in memory
 	private int loadFleets() {
 		int fleetCount = 0;
 		try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
@@ -45,72 +63,75 @@ public class Game {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Fleet file could not be loaded.");
+			output.println("Fleet file could not be loaded.");
 		}
 		return fleetCount;
 	}
 
+	// Method to start the game
+	// Begins the game loop, processing user commands until the game ends
 	public void start() 
 	{
-
 		try {
 			if(loadFleets() <= 0) return;
 
 			initializePlayers();
 			if (!playersInitialized) return;
 			currentPlayerIndex = 0;
-			
-            while (true) {
-                String command = scanner.next(); 
-                if (command.equals("quit")) {
-                	quit();
-                }else {
-                    processCommand(command);
-                }
-            }
-        } finally {
-            scanner.close();
-        }
+
+			while (true) {
+				String command = scanner.next();
+				if (command.equals("quit")) {
+					try {
+						quit();
+					} catch (GameEndException e) {
+						output.println(e.getMessage());
+						return;
+					}
+				} else {
+					processCommand(command);
+				}
+			}
+		} finally {
+			scanner.close();
+		}
 	}
-	
+
+	// Method to initialize players
+	// Reads player information from the user and creates Player objects
 	private void initializePlayers() {
-	    if (playersInitialized) return;
+		if (playersInitialized) return;
 		try {
-	        //System.out.print("Initializing players\nHow many players are there? ");
-	        int playerCount = scanner.nextInt();
-			scanner.nextLine(); // flush the newline character;
-	        if (playerCount < MIN_PLAYERS) {
-	            System.out.println("Invalid input. You must have at least " + MIN_PLAYERS + " players.");
-	            return;
-	        }
+			int playerCount = Integer.parseInt(scanner.nextLine().trim());
+			if (playerCount < MIN_PLAYERS) {
+				output.println("Invalid input. You must have at least " + MIN_PLAYERS + " players.");
+				return;
+			}
 
-	        for (int i = 1; i <= playerCount; i++) {
-	            //System.out.print("Please provide the name for player " + i + ": ");
-				String playerName = scanner.nextLine();
+			for (int i = 1; i <= playerCount; i++) {
+				String playerName = scanner.nextLine().trim();
+				int fleetNumber = Integer.parseInt(scanner.nextLine().trim());
 
-	            //System.out.print("Please provide the fleet number for " + playerName + ": ");
-	            int fleetNumber = scanner.nextInt();
-				scanner.nextLine(); // flush the newline character;
+				if (fleetNumber < 1 || fleetNumber > fleetFileContents.size()) {
+					output.println("Invalid fleet number. Please enter a valid fleet number.");
+					return;
+				}
 
-	            if (fleetNumber < 1 || fleetNumber > fleetFileContents.size()) {
-	                System.out.println("Invalid fleet number. Please enter a valid fleet number.");
-	                return;
-	            }
-
-	            Grid grid = new Grid(fleetFileContents.get(fleetNumber - 1));
+				Grid grid = new Grid(fleetFileContents.get(fleetNumber - 1));
 				Fleet newFleet = grid.ConvertToFleet();
-	            Player player = new Player(playerName, newFleet);
-	            players.add(player);
-	        }
+				Player player = new Player(playerName, newFleet);
+				players.add(player);
+			}
 
-	        playersInitialized = true;
-	    } catch (InputMismatchException e) {
-	        System.out.println("Invalid input. Please enter valid values.");
-	        scanner.nextLine(); // Clear the buffer
-	        players.clear();
-	    }
+			playersInitialized = true;
+		} catch (NumberFormatException e) {
+			output.println("Invalid input. Please enter valid values.");
+			players.clear();
+		}
 	}
 
+	// Method to process user commands
+	// Determines the type of command entered by the user and calls the appropriate method to handle it
 	private void processCommand(String commandType) {
         String input = scanner.nextLine().trim();
         switch (commandType) {
@@ -120,42 +141,57 @@ public class Game {
             case "shoot" -> processShootCommand(input);
             case "scores" -> processRankingCommand();
             case "players" -> processInGameCommand();
-            default -> System.out.println("Invalid command");
+            default -> output.println("Invalid command");
         }
     }
-	
+
+	// Method to perform an action on a player
+	// Finds a player by name and performs a specified action on them
+	private void performActionOnPlayer(String playerName, PlayerAction action) {
+		Player player = getPlayerByName(playerName);
+		if (player != null) {
+			action.apply(player);
+		}
+	}
+
+	// Method to process player command
+	// Displays the name of the next player to take a turn
 	private void processPlayerCommand() {
         if (isOver()) {
-            System.out.println("The game is over");
+            output.println("The game is over");
 			return;
         }
 
 		String nextPlayer = players.get(currentPlayerIndex).getName();
-		System.out.println("Next player: " + nextPlayer);
+		output.println("Next player: " + nextPlayer);
     }
 
-    private void processScoreCommand(String playerName) {
-    	Player player = getPlayerByName(playerName);
-		if (player != null) 
-            System.out.println(playerName + " has " + player.getScore() + " points");	
-    }
+	// Method to process score command
+	// Displays the score of a specified player
+	private void processScoreCommand(String playerName) {
+		performActionOnPlayer(playerName, player -> output.println(player.getName() + " has " + player.getScore() + " points"));
+	}
 
+	// Method to get player by name
+	// Searches for a player by name and returns the Player object if found
     private Player getPlayerByName(String playerName){
 		for(Player player : players){
 			if (player.getName().equals(playerName)) {
 				return player;
 			}	
 		}
-		System.out.println("Nonexistent player");
+		output.println("Nonexistent player");
 		return null;
 	}
 
-	private void processFleetCommand(String playerName) {      
-		Player player = getPlayerByName(playerName);
-		if (player != null) 
-            System.out.println(player.getFleet().printGrid());
-    }
+	// Method to process fleet command
+	// Displays the fleet grid of a specified player
+	private void processFleetCommand(String playerName) {
+		performActionOnPlayer(playerName, player -> output.println(player.getFleet().printGrid()));
+	}
 
+	// Method to process ranking command
+	// Displays the current ranking of players by score
     private void processRankingCommand() {
 		// Create a copy of the players list
 		List<Player> sortedPlayers = new ArrayList<>(players);
@@ -175,10 +211,12 @@ public class Game {
 
 		// Print the sorted ranking
 		for (Player player : sortedPlayers) {
-			System.out.println(player.getName() + " has " + player.getScore() + " points");
+			output.println(player.getName() + " has " + player.getScore() + " points");
 		}
     }
 
+	// Method to compare players
+	// Compares two players first by score, then by name if scores are tied
 	private int comparePlayers(Player p1, Player p2) {
 		if (p1.getScore() != p2.getScore()) {
 			// Sort by score in descending order
@@ -189,21 +227,26 @@ public class Game {
 		}
 	}
 
+	// Method to process in-game command
+	// Displays the names of all players who are still in the game
     private void processInGameCommand() {
         for(Player player : players){
-            if (!player.isEliminated()) System.out.println(player.getName());
+            if (!player.isEliminated()) output.println(player.getName());
         }
     }
 
+
+	// Method to process shoot command
+	// Processes a shoot command from the current player, updating scores and player states as necessary
 	private void processShootCommand(String shootParameters) {
 		if (isOver()) {
-			System.out.println("The game is over");
+			output.println("The game is over");
 			return;
 		}
 
 		String[] parts = shootParameters.split(" ", 3);
 		if (parts.length != 3 || isNotNumeric(parts[0]) || isNotNumeric(parts[1])) {
-			System.out.println("Invalid command");
+			output.println("Invalid command");
 			return;
 		}
 
@@ -211,36 +254,44 @@ public class Game {
 		// convert the parameters to zero-based indices
 		int targetRow = Integer.parseInt(parts[0]) - 1;
 		int targetColumn = Integer.parseInt(parts[1]) - 1;
-		Player targetPlayer = getPlayerByName(parts[2]);
-		if (!shotParametersValid(targetPlayer, currentPlayer, targetRow, targetColumn)) return;
+		String targetPlayerName = parts[2];
 
-		int points = getPointsForShot(targetPlayer, targetRow, targetColumn);
-		currentPlayer.addScore(points);
+		performActionOnPlayer(targetPlayerName, targetPlayer -> {
+			if (!shotParametersValid(targetPlayer, currentPlayer, targetRow, targetColumn)) return;
 
-		if (isOver()) currentPlayer.addScore(currentPlayer.getScore());
-		currentPlayerIndex = getNextPlayerIndex();
+			int points = getPointsForShot(targetPlayer, targetRow, targetColumn);
+			currentPlayer.addScore(points);
+
+			if (isOver()) currentPlayer.addScore(currentPlayer.getScore());
+			currentPlayerIndex = getNextPlayerIndex();
+		});
 	}
 
-	private static boolean shotParametersValid(Player targetPlayer, Player currentPlayer, int targetRow, int targetColumn) {
+	// Method to check if shot parameters are valid
+	// Checks if the parameters for a shot are valid (target player exists, is not the current player,
+	// is not eliminated, and coordinates are within bounds)
+	private boolean shotParametersValid(Player targetPlayer, Player currentPlayer, int targetRow, int targetColumn) {
 		if (targetPlayer == null) return false;
 		if (targetPlayer.getName().equals(currentPlayer.getName())) {
-			System.out.println("Self-inflicted shot");
+			output.println("Self-inflicted shot");
 			return false;
 		}
 		if (targetPlayer.isEliminated()) {
-			System.out.println("Eliminated player");
+			output.println("Eliminated player");
 			return false;
 		}
-		if (targetRow > targetPlayer.getFleet().getMaxRows() - 1
-				|| targetColumn > targetPlayer.getFleet().getMaxColumns() - 1
-				|| targetRow < 0
-				|| targetColumn < 0) {
-			System.out.println("Invalid shot");
+		if (targetRow < 0 || targetColumn < 0
+				|| targetRow >= targetPlayer.getFleet().getMaxRows()
+				|| targetColumn >= targetPlayer.getFleet().getMaxColumns()){
+			output.println("Invalid shot");
 			return false;
 		}
 		return true;
 	}
 
+
+	// Method to get points for a shot
+	// Determines the number of points to award for a shot based on the result of the shot
 	private int getPointsForShot(Player targetPlayer, int targetRow, int targetColumn) {
 		HitResult result = targetPlayer.getFleet().hitObjectAt(targetRow, targetColumn);
         return switch (result.getHitType()) {
@@ -250,6 +301,8 @@ public class Game {
 		};
 	}
 
+	// Method to get the next player index
+	// Determines the index of the next player to take a turn, skipping over any eliminated players
 	private int getNextPlayerIndex() {
 		int nextIndex = currentPlayerIndex;
 		do{
@@ -259,19 +312,29 @@ public class Game {
 		return nextIndex; 
 	}
 
-	private static boolean isNotNumeric(String str) {
-        return !str.matches("-?\\d+(\\.\\d+)?");  // Regular expression for numeric strings
+	// Method to check if a string is not numeric
+	// Checks if a string can be parsed as an integer
+	private boolean isNotNumeric(String str) {
+		try {
+			Integer.parseInt(str);
+			return false;
+		} catch (NumberFormatException e) {
+			return true;
+		}
     }
 
-    private void quit() {
-    	if(isOver()){
-            System.out.println(getWinningPlayer().getName() + " won the game");
-            System.exit(0);
-        }else {
-            System.out.println("The game was not over yet...");
-        }
+	// Method to quit the game
+	// Ends the game prematurely, throwing an exception with a message indicating the game's outcome
+    private void quit() throws GameEndException {
+		if(isOver()){
+			throw new GameEndException(getWinningPlayer().getName() + " won the game");
+		} else {
+			throw new GameEndException("The game was not over yet...");
+		}
     }
 
+	// Method to check if the game is over
+	// Checks if the game is over based on the number of players who still have ships remaining
     private boolean isOver() {
 		int activePlayers = 0;
 		for (Player player : players) {
@@ -282,6 +345,8 @@ public class Game {
 		return activePlayers < MIN_PLAYERS;
 	}
 
+	// Method to get the winning player
+	// Determines the winning player based on score, with ties broken by who is not eliminated
 	private Player getWinningPlayer() {
 		Player winner = null;
         for (Player player : players) {
@@ -303,6 +368,9 @@ public class Game {
         return winner;
 	}
 
+
+	// Method to check if more than one player has the highest score
+	// Checks if more than one player has the current highest score
 	private boolean moreThanOnePlayerHasScore(int highestScore) {
 		int count = 0;
 		for (Player player : players) {
