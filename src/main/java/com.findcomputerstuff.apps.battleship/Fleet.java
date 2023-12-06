@@ -1,3 +1,5 @@
+package com.findcomputerstuff.apps.battleship;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,10 +17,6 @@ public class Fleet {
 
 	public int getMaxRows(){
 		return maxRows;
-	}
-
-	public Iterator<Ship> iterator() {
-		return ships.iterator();
 	}
 
 	public int getMaxColumns(){

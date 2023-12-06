@@ -1,3 +1,5 @@
+package com.findcomputerstuff.apps.battleship;
+
 import java.util.ArrayList;
 import java.util.List;
 

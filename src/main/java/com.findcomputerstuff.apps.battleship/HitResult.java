@@ -1,3 +1,5 @@
+package com.findcomputerstuff.apps.battleship;
+
 public class HitResult {
 	private int cellCount;
 	private final HitType hitType;

@@ -1,3 +1,5 @@
+package com.findcomputerstuff.apps.battleship;
+
 public class Cell {
 	public static final char WRECK_CHARACTER = '*';
 	public static final char BLANK_CHARACTER = '.';
