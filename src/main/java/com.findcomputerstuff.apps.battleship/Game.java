@@ -19,7 +19,7 @@ public class Game {
 	private final List<Player> players;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
-	private final InputScanner scanner;
+	private final Scanner scanner;
 
 	private final PrintStream output;
 
@@ -28,10 +28,14 @@ public class Game {
 		void apply(Player player);
 	}
 	
-	public Game(InputScanner scanner, PrintStream output) {
+	public Game(InputStream input, PrintStream output) {
+		if (input == null || output == null) {
+			throw new IllegalArgumentException("Input and output streams must not be null");
+		}
+
 		// Initializes the game with default values
 		this.playersInitialized = false;
-		this.scanner = scanner;
+		this.scanner = new Scanner(input);
 		this.output = output;
 		this.players = new ArrayList<>();
 		this.fleetFileContents = new ArrayList<>();
