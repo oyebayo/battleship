@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class PlayerManager {
     private static final int MIN_PLAYERS = 2;
     private final List<Player> players;
-    private final FleetLoader fleetLoader;
+    private final FleetDataLoader fleetDataLoader;
     private int currentPlayerIndex;
     private final PrintStream output;
     private final Scanner scanner;
@@ -24,7 +24,7 @@ public class PlayerManager {
         this.output = output;
         this.scanner = new Scanner(input);
         this.players = new ArrayList<>();
-        this.fleetLoader = new FleetLoader(output);
+        this.fleetDataLoader = new FleetDataLoader(output);
         this.currentPlayerIndex = 0;
     }
 
@@ -37,8 +37,8 @@ public class PlayerManager {
         if (playersInitialized) return;
 
         try {
-            fleetLoader.load();
-            if (!fleetLoader.isLoaded()) return;
+            fleetDataLoader.load();
+            if (!fleetDataLoader.isLoaded()) return;
 
             int playerCount = Integer.parseInt(scanner.nextLine().trim());
             if (playerCount < MIN_PLAYERS) {
@@ -50,12 +50,12 @@ public class PlayerManager {
                 String playerName = scanner.nextLine().trim();
                 int fleetNumber = Integer.parseInt(scanner.nextLine().trim());
 
-                if (fleetNumber < 1 || fleetNumber > fleetLoader.getFleetCount()) {
+                if (fleetNumber < 1 || fleetNumber > fleetDataLoader.getFleetCount()) {
                     output.println("Invalid fleet number. Please enter a valid fleet number.");
                     return;
                 }
 
-                Grid grid = new Grid(fleetLoader.getFleetStrings(fleetNumber - 1));
+                Grid grid = new Grid(fleetDataLoader.getFleetStrings(fleetNumber - 1));
                 Fleet newFleet = grid.ConvertToFleet();
                 Player player = new Player(playerName, newFleet);
                 players.add(player);

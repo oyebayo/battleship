@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FleetLoader {
+public class FleetDataLoader {
     private static final String FLEET_FILE_PATH = "fleets.txt";
     private final List<String[]> fleetData;
     private final PrintStream output;
     private int fleetCount;
 
-    public FleetLoader(PrintStream output) {
+    public FleetDataLoader(PrintStream output) {
         this.fleetData = new ArrayList<>();
         this.output = output;
     }
