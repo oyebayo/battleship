@@ -7,29 +7,21 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Game {
-	private final Scanner scanner;
-	private final PrintStream output;
 	private final PlayerManager playerManager;
 	private final CommandProcessor commandProcessor;
 
-	public Game(InputStream input, PrintStream output) {
-		if (input == null || output == null) {
-			throw new IllegalArgumentException("Input and output streams must not be null");
-		}
-
+	public Game(CommandProcessor commandProcessor, PlayerManager playerManager) {
 		// Initializes the game with default values
-		this.scanner = new Scanner(input);
-		this.output = output;
-		this.playerManager = new PlayerManager(input, output);
-		this.commandProcessor = new CommandProcessor(new Scanner(input), output, playerManager);
+		this.playerManager = playerManager;
+		this.commandProcessor = commandProcessor;
 	}
 
 	// Method to start the game
 	// Begins the game loop, processing user commands until the game ends
-	public void start() 
+	public void start(Scanner scanner, PrintStream output)
 	{
 		try {
-			playerManager.initializePlayers();
+			playerManager.initializePlayers(scanner);
 
 			if(!playerManager.isInitialized()) return;
 			while (true) {
@@ -42,7 +34,7 @@ public class Game {
 						return;
 					}
 				} else {
-					commandProcessor.processCommand(command);
+					commandProcessor.processCommand(scanner, command);
 				}
 			}
 		} finally {

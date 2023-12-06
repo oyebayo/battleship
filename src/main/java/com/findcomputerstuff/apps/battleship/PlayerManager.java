@@ -16,7 +16,6 @@ public class PlayerManager {
     private final FleetDataLoader fleetDataLoader;
     private int currentPlayerIndex;
     private final PrintStream output;
-    private final Scanner scanner;
     private boolean playersInitialized;
 
     @FunctionalInterface
@@ -24,11 +23,10 @@ public class PlayerManager {
         void apply(Player player);
     }
 
-    public PlayerManager(InputStream input, PrintStream output) {
+    public PlayerManager(FleetDataLoader fleetDataLoader, PrintStream output) {
         this.output = output;
-        this.scanner = new Scanner(input);
         this.players = new ArrayList<>();
-        this.fleetDataLoader = new FleetDataLoader(output);
+        this.fleetDataLoader = fleetDataLoader;
         this.currentPlayerIndex = 0;
     }
 
@@ -37,7 +35,7 @@ public class PlayerManager {
     }
     // Method to initialize players
     // Reads player information from the user and creates Player objects
-    void initializePlayers() {
+    void initializePlayers(Scanner scanner) {
         if (playersInitialized) return;
 
         try {

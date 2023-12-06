@@ -10,19 +10,17 @@ import java.util.Scanner;
 public class CommandProcessor {
     private static final int POINTS_FOR_SHIP_HIT = 100;
     private static final int POINTS_FOR_WRECK_HIT = -30;
-    private final Scanner scanner;
     private final PrintStream output;
     private final PlayerManager playerManager;
 
-    public CommandProcessor(Scanner scanner, PrintStream output, PlayerManager playerManager) {
-        this.scanner = scanner;
+    public CommandProcessor(PlayerManager playerManager, PrintStream output) {
         this.output = output;
         this.playerManager = playerManager;
     }
 
     // Method to process user commands
     // Determines the type of command entered by the user and calls the appropriate method to handle it
-    void processCommand(String commandType) {
+    void processCommand(Scanner scanner, String commandType) {
         String input = scanner.nextLine().trim();
         switch (commandType) {
             case "player" -> processPlayerCommand();

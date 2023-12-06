@@ -8,14 +8,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FleetDataLoader {
-    private static final String FLEET_FILE_PATH = "fleets.txt";
+    public static final String FLEET_FILE_PATH = "fleets.txt";
     private final List<String[]> fleetData;
     private final PrintStream output;
     private int fleetCount;
+    private final Scanner fileScanner;
 
-    public FleetDataLoader(PrintStream output) {
+    public FleetDataLoader(Scanner fileScanner, PrintStream output) {
         this.fleetData = new ArrayList<>();
         this.output = output;
+        this.fileScanner = fileScanner;
     }
 
     boolean hasLoaded() {
@@ -25,13 +27,14 @@ public class FleetDataLoader {
     String[] getFleetStrings(int index) {
         return fleetData.get(index);
     }
+
     // Method to load fleets from a file
     // Reads the fleet file and stores the fleet configurations in memory
     void load() {
         if (hasLoaded()) return;
 
         fleetCount = 0;
-        try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
+        try {
             while (fileScanner.hasNext()) {
                 int rows = fileScanner.nextInt();
                 int columns = fileScanner.nextInt();
@@ -49,7 +52,7 @@ public class FleetDataLoader {
                     fleetCount++;
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             output.println("Fleet file could not be loaded.");
         }
     }
