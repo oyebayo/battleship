@@ -91,7 +91,7 @@ class FleetTest {
     @Test
     void testFleetAddShip() {
     	Fleet fleet = new Fleet(ships, 4, 4);
-    	Ship newShip = new Ship(List.of(new Cell(0, 1, 'C')));
+    	Ship newShip = new Ship(List.of(new Cell(2, 1, 'C')));
     	assertEquals(1, fleet.addShip(newShip));
         assertEquals(4, fleet.size());
     }
