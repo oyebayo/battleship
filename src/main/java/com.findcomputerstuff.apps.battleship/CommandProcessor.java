@@ -1,7 +1,8 @@
 package com.findcomputerstuff.apps.battleship;
 
-import java.util.ArrayList;
+import java.io.PrintStream;
 import java.util.List;
+import java.util.Scanner;
 
 public class CommandProcessor {
     private static final int POINTS_FOR_SHIP_HIT = 100;
@@ -35,45 +36,31 @@ public class CommandProcessor {
     // Method to process player command
     // Displays the name of the next player to take a turn
     private void processPlayerCommand() {
-        if (isOver()) {
+        if (playerManager.hasLessActivePlayersThanRequired()) {
             output.println("The game is over");
             return;
         }
 
-        String nextPlayer = players.get(currentPlayerIndex).getName();
+        String nextPlayer = playerManager.getCurrentPlayer().getName();
         output.println("Next player: " + nextPlayer);
     }
 
     // Method to process score command
     // Displays the score of a specified player
     private void processScoreCommand(String playerName) {
-        performActionOnPlayer(playerName, player -> output.println(player.getName() + " has " + player.getScore() + " points"));
+        playerManager.performActionOnPlayer(playerName, player -> output.println(player.getName() + " has " + player.getScore() + " points"));
     }
 
     // Method to process fleet command
     // Displays the fleet grid of a specified player
     private void processFleetCommand(String playerName) {
-        performActionOnPlayer(playerName, player -> output.println(player.getFleet().printGrid()));
+        playerManager.performActionOnPlayer(playerName, player -> output.println(player.getFleet().printGrid()));
     }
 
     // Method to process ranking command
     // Displays the current ranking of players by score
     private void processRankingCommand() {
-        // Create a copy of the players list
-        List<Player> sortedPlayers = new ArrayList<>(players);
-
-        // Sort the copied list by score in descending order using a basic sorting algorithm
-        // If scores are tied, sort by name in ascending alphabetic order
-        for (int i = 0; i < sortedPlayers.size() - 1; i++) {
-            for (int j = 0; j < sortedPlayers.size() - i - 1; j++) {
-                if (comparePlayers(sortedPlayers.get(j), sortedPlayers.get(j + 1)) > 0) {
-                    // Swap elements if they are in the wrong order
-                    Player temp = sortedPlayers.get(j);
-                    sortedPlayers.set(j, sortedPlayers.get(j + 1));
-                    sortedPlayers.set(j + 1, temp);
-                }
-            }
-        }
+        List<Player> sortedPlayers = playerManager.getPlayersSortedByScore();
 
         // Print the sorted ranking
         for (Player player : sortedPlayers) {
@@ -84,8 +71,8 @@ public class CommandProcessor {
     // Method to process in-game command
     // Displays the names of all players who are still in the game
     private void processInGameCommand() {
-        for (Player player : players) {
-            if (!player.isEliminated()) output.println(player.getName());
+        for (Player player : playerManager.getActivePlayers()) {
+            output.println(player.getName());
         }
     }
 
@@ -93,7 +80,7 @@ public class CommandProcessor {
     // Method to process shoot command
     // Processes a shoot command from the current player, updating scores and player states as necessary
     private void processShootCommand(String shootParameters) {
-        if (isOver()) {
+        if (playerManager.hasLessActivePlayersThanRequired()) {
             output.println("The game is over");
             return;
         }
@@ -104,23 +91,22 @@ public class CommandProcessor {
             return;
         }
 
-        Player currentPlayer = players.get(currentPlayerIndex);
+        Player currentPlayer = playerManager.getCurrentPlayer();
         // convert the parameters to zero-based indices
         int targetRow = Integer.parseInt(parts[0]) - 1;
         int targetColumn = Integer.parseInt(parts[1]) - 1;
         String targetPlayerName = parts[2];
 
-        performActionOnPlayer(targetPlayerName, targetPlayer -> {
+        playerManager.performActionOnPlayer(targetPlayerName, targetPlayer -> {
             if (!shotParametersValid(targetPlayer, currentPlayer, targetRow, targetColumn)) return;
 
             int points = getPointsForShot(targetPlayer, targetRow, targetColumn);
             currentPlayer.addScore(points);
 
-            if (isOver()) currentPlayer.addScore(currentPlayer.getScore());
-            currentPlayerIndex = getNextPlayerIndex();
+            if (playerManager.hasLessActivePlayersThanRequired()) currentPlayer.addScore(currentPlayer.getScore());
+            playerManager.moveToNextPlayer();
         });
     }
-
 
     // Method to check if shot parameters are valid
     // Checks if the parameters for a shot are valid (target player exists, is not the current player,

@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 public class FleetLoader {
     private static final String FLEET_FILE_PATH = "fleets.txt";
-    private final List<String[]> fleetFileContents;
+    private final List<String[]> fleetData;
     private final PrintStream output;
     private int fleetCount;
 
     public FleetLoader(PrintStream output) {
-        this.fleetFileContents = new ArrayList<>();
+        this.fleetData = new ArrayList<>();
         this.output = output;
     }
 
@@ -23,12 +23,14 @@ public class FleetLoader {
     }
 
     public String[] getFleetStrings(int index) {
-        return fleetFileContents.get(index);
+        return fleetData.get(index);
     }
     // Method to load fleets from a file
     // Reads the fleet file and stores the fleet configurations in memory
-    public int loadFleets() {
-        int fleetCount = 0;
+    public void load() {
+        if (isLoaded()) return;
+
+        fleetCount = 0;
         try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
             while (fileScanner.hasNext()) {
                 int rows = fileScanner.nextInt();
@@ -43,14 +45,13 @@ public class FleetLoader {
                 }
 
                 if (fleetStrings.size() == rows) {
-                    fleetFileContents.add(fleetStrings.toArray(new String[0]));
+                    fleetData.add(fleetStrings.toArray(new String[0]));
                     fleetCount++;
                 }
             }
         } catch (FileNotFoundException e) {
             output.println("Fleet file could not be loaded.");
         }
-        return fleetCount;
     }
 
     public int getFleetCount() {

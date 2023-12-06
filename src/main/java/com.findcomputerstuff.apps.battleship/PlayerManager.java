@@ -37,7 +37,7 @@ public class PlayerManager {
         if (playersInitialized) return;
 
         try {
-            fleetLoader.loadFleets();
+            fleetLoader.load();
             if (!fleetLoader.isLoaded()) return;
 
             int playerCount = Integer.parseInt(scanner.nextLine().trim());
@@ -68,9 +68,41 @@ public class PlayerManager {
         }
     }
 
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
+    }
+
+    public List<Player> getActivePlayers() {
+        List<Player> activePlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.isEliminated()) {
+                activePlayers.add(player);
+            }
+        }
+        return activePlayers;
+    }
+    public List<Player> getPlayersSortedByScore() {
+        // Create a copy of the players list
+        List<Player> sortedPlayers = new ArrayList<>(players);
+
+        // Sort the copied list by score in descending order using a basic sorting algorithm
+        // If scores are tied, sort by name in ascending alphabetic order
+        for (int i = 0; i < sortedPlayers.size() - 1; i++) {
+            for (int j = 0; j < sortedPlayers.size() - i - 1; j++) {
+                if (comparePlayers(sortedPlayers.get(j), sortedPlayers.get(j + 1)) > 0) {
+                    // Swap elements if they are in the wrong order
+                    Player temp = sortedPlayers.get(j);
+                    sortedPlayers.set(j, sortedPlayers.get(j + 1));
+                    sortedPlayers.set(j + 1, temp);
+                }
+            }
+        }
+        return sortedPlayers;
+    }
+
     // Method to perform an action on a player
     // Finds a player by name and performs a specified action on them
-    private void performActionOnPlayer(String playerName, PlayerAction action) {
+    public void performActionOnPlayer(String playerName, PlayerAction action) {
         Player player = getPlayerByName(playerName);
         if (player != null) {
             action.apply(player);
@@ -101,15 +133,12 @@ public class PlayerManager {
         }
     }
 
-    // Method to get the next player index
-    // Determines the index of the next player to take a turn, skipping over any eliminated players
-    private int getNextPlayerIndex() {
-        int nextIndex = currentPlayerIndex;
+    // Method to advance the  turn to the next player, skipping over any eliminated players
+    void moveToNextPlayer() {
         do{
             // modulo operator will ensure the indices remain less than max players
-            nextIndex = (nextIndex + 1) % players.size();
-        }while(players.get(nextIndex).isEliminated());
-        return nextIndex;
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        }while(players.get(currentPlayerIndex).isEliminated());
     }
 
     // Method to check if the game is over
