@@ -1,6 +1,5 @@
-package com.findcomputerstuff.apps.battleship;
+package com.findcomputerstuff.apps.battleship.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {

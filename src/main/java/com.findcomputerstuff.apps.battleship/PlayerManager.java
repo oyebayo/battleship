@@ -1,5 +1,9 @@
 package com.findcomputerstuff.apps.battleship;
 
+import com.findcomputerstuff.apps.battleship.entities.Fleet;
+import com.findcomputerstuff.apps.battleship.entities.Grid;
+import com.findcomputerstuff.apps.battleship.entities.Player;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;

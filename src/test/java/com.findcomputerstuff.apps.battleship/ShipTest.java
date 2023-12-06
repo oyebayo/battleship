@@ -1,5 +1,8 @@
 package com.findcomputerstuff.apps.battleship;
 
+import com.findcomputerstuff.apps.battleship.entities.Cell;
+import com.findcomputerstuff.apps.battleship.entities.Ship;
+import com.findcomputerstuff.apps.battleship.entities.ShipOrientation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

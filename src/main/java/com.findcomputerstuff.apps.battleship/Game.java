@@ -1,5 +1,7 @@
 package com.findcomputerstuff.apps.battleship;
 
+import com.findcomputerstuff.apps.battleship.entities.GameEndException;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;

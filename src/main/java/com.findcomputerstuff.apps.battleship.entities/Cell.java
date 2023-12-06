@@ -1,4 +1,4 @@
-package com.findcomputerstuff.apps.battleship;
+package com.findcomputerstuff.apps.battleship.entities;
 
 public class Cell {
 	public static final char WRECK_CHARACTER = '*';

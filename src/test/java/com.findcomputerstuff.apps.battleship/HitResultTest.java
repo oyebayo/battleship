@@ -1,5 +1,7 @@
 package com.findcomputerstuff.apps.battleship;
 
+import com.findcomputerstuff.apps.battleship.entities.HitResult;
+import com.findcomputerstuff.apps.battleship.entities.HitType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class HitResultTest {

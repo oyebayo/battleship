@@ -1,4 +1,4 @@
-package com.findcomputerstuff.apps.battleship;
+package com.findcomputerstuff.apps.battleship.entities;
 
 public class Player {
     private final String name;

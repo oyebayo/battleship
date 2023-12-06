@@ -1,4 +1,4 @@
-package com.findcomputerstuff.apps.battleship;
+package com.findcomputerstuff.apps.battleship.entities;
 
 public enum ShipOrientation {
     HORIZONTAL,
