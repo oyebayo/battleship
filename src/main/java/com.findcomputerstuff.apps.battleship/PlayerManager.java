@@ -28,7 +28,7 @@ public class PlayerManager {
         this.currentPlayerIndex = 0;
     }
 
-    public boolean isInitialized() {
+    boolean isInitialized() {
         return playersInitialized;
     }
     // Method to initialize players
@@ -38,7 +38,7 @@ public class PlayerManager {
 
         try {
             fleetDataLoader.load();
-            if (!fleetDataLoader.isLoaded()) return;
+            if (!fleetDataLoader.hasLoaded()) return;
 
             int playerCount = Integer.parseInt(scanner.nextLine().trim());
             if (playerCount < MIN_PLAYERS) {
@@ -68,11 +68,11 @@ public class PlayerManager {
         }
     }
 
-    public Player getCurrentPlayer() {
+    Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
     }
 
-    public List<Player> getActivePlayers() {
+    List<Player> getActivePlayers() {
         List<Player> activePlayers = new ArrayList<>();
         for (Player player : players) {
             if (!player.isEliminated()) {
@@ -81,7 +81,7 @@ public class PlayerManager {
         }
         return activePlayers;
     }
-    public List<Player> getPlayersSortedByScore() {
+    List<Player> getPlayersSortedByScore() {
         // Create a copy of the players list
         List<Player> sortedPlayers = new ArrayList<>(players);
 
@@ -102,7 +102,7 @@ public class PlayerManager {
 
     // Method to perform an action on a player
     // Finds a player by name and performs a specified action on them
-    public void performActionOnPlayer(String playerName, PlayerAction action) {
+    void performActionOnPlayer(String playerName, PlayerAction action) {
         Player player = getPlayerByName(playerName);
         if (player != null) {
             action.apply(player);

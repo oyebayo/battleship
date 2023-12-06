@@ -18,17 +18,17 @@ public class FleetDataLoader {
         this.output = output;
     }
 
-    public boolean isLoaded() {
+    boolean hasLoaded() {
         return fleetCount > 0;
     }
 
-    public String[] getFleetStrings(int index) {
+    String[] getFleetStrings(int index) {
         return fleetData.get(index);
     }
     // Method to load fleets from a file
     // Reads the fleet file and stores the fleet configurations in memory
-    public void load() {
-        if (isLoaded()) return;
+    void load() {
+        if (hasLoaded()) return;
 
         fleetCount = 0;
         try (Scanner fileScanner = new Scanner(new File(FLEET_FILE_PATH))) {
@@ -54,7 +54,7 @@ public class FleetDataLoader {
         }
     }
 
-    public int getFleetCount() {
+    int getFleetCount() {
         return fleetCount;
     }
 }

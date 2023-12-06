@@ -35,7 +35,7 @@ public class CommandProcessor {
 
     // Method to process player command
     // Displays the name of the next player to take a turn
-    private void processPlayerCommand() {
+    void processPlayerCommand() {
         if (playerManager.hasLessActivePlayersThanRequired()) {
             output.println("The game is over");
             return;
@@ -47,19 +47,19 @@ public class CommandProcessor {
 
     // Method to process score command
     // Displays the score of a specified player
-    private void processScoreCommand(String playerName) {
+    void processScoreCommand(String playerName) {
         playerManager.performActionOnPlayer(playerName, player -> output.println(player.getName() + " has " + player.getScore() + " points"));
     }
 
     // Method to process fleet command
     // Displays the fleet grid of a specified player
-    private void processFleetCommand(String playerName) {
+    void processFleetCommand(String playerName) {
         playerManager.performActionOnPlayer(playerName, player -> output.println(player.getFleet().printGrid()));
     }
 
     // Method to process ranking command
     // Displays the current ranking of players by score
-    private void processRankingCommand() {
+    void processRankingCommand() {
         List<Player> sortedPlayers = playerManager.getPlayersSortedByScore();
 
         // Print the sorted ranking
@@ -70,7 +70,7 @@ public class CommandProcessor {
 
     // Method to process in-game command
     // Displays the names of all players who are still in the game
-    private void processInGameCommand() {
+    void processInGameCommand() {
         for (Player player : playerManager.getActivePlayers()) {
             output.println(player.getName());
         }
@@ -79,7 +79,7 @@ public class CommandProcessor {
 
     // Method to process shoot command
     // Processes a shoot command from the current player, updating scores and player states as necessary
-    private void processShootCommand(String shootParameters) {
+    void processShootCommand(String shootParameters) {
         if (playerManager.hasLessActivePlayersThanRequired()) {
             output.println("The game is over");
             return;
