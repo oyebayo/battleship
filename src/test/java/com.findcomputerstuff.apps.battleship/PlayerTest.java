@@ -15,8 +15,8 @@ class PlayerTest {
 
     @BeforeEach
     void beforeEach() {
-        List<Ship> ships = new ArrayList<>();
-        fleet = new Fleet(ships, 3, 12);
+        Ship[] ships = new Ship[5]; // empty array
+
         /*
         DAAA..B.CCC.
         D.....B.....
@@ -38,11 +38,13 @@ class PlayerTest {
                 new Cell(2, 11, 'C')
         );
 
-        fleet.addShip(new Ship(shipCells.stream().limit(3).toList()));
-        fleet.addShip(new Ship(shipCells.stream().skip(3).limit(3).toList()));
-        fleet.addShip(new Ship(shipCells.stream().skip(6).limit(2).toList()));
-        fleet.addShip(new Ship(shipCells.stream().skip(8).limit(3).toList()));
-        fleet.addShip(new Ship(shipCells.stream().skip(11).limit(2).toList()));
+        ships[0] = new Ship(shipCells.stream().limit(3).toList());
+        ships[1] = new Ship(shipCells.stream().skip(3).limit(3).toList());
+        ships[2] = new Ship(shipCells.stream().skip(6).limit(2).toList());
+        ships[3] = new Ship(shipCells.stream().skip(8).limit(3).toList());
+        ships[4] = new Ship(shipCells.stream().skip(11).limit(2).toList());
+
+        fleet = new Fleet(ships, 3, 12);
     }
 
     @Test

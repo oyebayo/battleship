@@ -58,7 +58,7 @@ public class GridTest {
                 new Cell(1, 0, 'A'),
                 new Cell(2, 0, 'A')
         ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+        Fleet fleet = new Fleet(new Ship[]{neighbourShip}, 3, 12);
 
         Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
 
@@ -77,7 +77,7 @@ public class GridTest {
                 new Cell(1, 4, 'B'),
                 new Cell(1, 5, 'B')
         ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+        Fleet fleet = new Fleet(new Ship[]{neighbourShip}, 3, 12);
 
         Ship ship = grid.findAnyAdjacentShipWithSameLabel(1, 6, fleet);
 
@@ -95,7 +95,7 @@ public class GridTest {
                 new Cell(1, 0, 'A'),
                 new Cell(2, 0, 'A')
         ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+        Fleet fleet = new Fleet(new Ship[]{neighbourShip}, 3, 12);
 
         Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
         assertNull(ship);
@@ -110,7 +110,7 @@ public class GridTest {
                 new Cell(1, 0, 'D'),
                 new Cell(2, 0, 'D')
         ));
-        Fleet fleet = new Fleet(List.of(neighbourShip), 3, 12);
+        Fleet fleet = new Fleet(new Ship[]{neighbourShip}, 3, 12);
 
         Ship ship = grid.findAnyAdjacentShipWithSameLabel(0, 1, fleet);
         assertNull(ship);

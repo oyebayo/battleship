@@ -16,7 +16,7 @@ public class Grid {
     }
 
     public Fleet ConvertToFleet(){
-        List<Ship> ships = new ArrayList<>();
+        Ship[] ships = new Ship[]{};
         Fleet fleet = new Fleet(ships, grid.length, grid[0].length);
 
         for (int i = 0; i < grid.length; i++) {

@@ -1,18 +1,16 @@
 package com.findcomputerstuff.apps.battleship;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Fleet {
 	private final int maxColumns;
 	private final int maxRows;
-	private final List<Ship> ships;
+	private final HashSet<Ship> ships;
 
-	public Fleet(List<Ship> ships, int maxRows, int maxColumns){
+	public Fleet(Ship[] ships, int maxRows, int maxColumns){
 		this.maxRows = maxRows;
 		this.maxColumns = maxColumns;
-		this.ships = ships;
+		this.ships = new HashSet<>(Arrays.asList(ships));
 	}
 
 	public int getMaxRows(){
@@ -23,6 +21,9 @@ public class Fleet {
 		return maxColumns;
 	}
 
+	public Collection<Ship> getShips() {
+		return List.of(ships.toArray(new Ship[0]));
+	}
 	public Ship getShipAt(int row, int column) {
 		for(Ship ship : ships) {
 			for (Cell cell : ship.getCells()) {

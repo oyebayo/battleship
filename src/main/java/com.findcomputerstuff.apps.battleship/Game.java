@@ -1,6 +1,7 @@
 package com.findcomputerstuff.apps.battleship;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,27 +19,22 @@ public class Game {
 	private final List<Player> players;
 	private boolean playersInitialized;
 	private int currentPlayerIndex;
-	private final Scanner scanner;
+	private final InputScanner scanner;
 
-	private PrintStream output;
+	private final PrintStream output;
 
 	@FunctionalInterface
 	interface PlayerAction {
 		void apply(Player player);
 	}
 	
-	public Game() {
+	public Game(InputScanner scanner, PrintStream output) {
 		// Initializes the game with default values
 		this.playersInitialized = false;
-		this.scanner = new Scanner(System.in);
-		this.output = System.out;
+		this.scanner = scanner;
+		this.output = output;
 		this.players = new ArrayList<>();
 		this.fleetFileContents = new ArrayList<>();
-	}
-
-	// Allows changing the PrintStream for output
-	public void setOutput(PrintStream output) {
-		this.output = output;
 	}
 
 	// Method to load fleets from a file
