@@ -25,7 +25,7 @@ public class Game {
 
 			if(!playerManager.isInitialized()) return;
 			while (true) {
-				String command = scanner.next();
+				String command = scanner.hasNext() ? scanner.next() : "";
 				if (command.equals("quit")) {
 					try {
 						quit();
@@ -33,6 +33,8 @@ public class Game {
 						output.println(e.getMessage());
 						return;
 					}
+				} else if (command.equals("bye")) {
+					break;
 				} else {
 					commandProcessor.processCommand(scanner, command);
 				}
