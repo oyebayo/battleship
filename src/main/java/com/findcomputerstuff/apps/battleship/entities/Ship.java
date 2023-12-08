@@ -1,17 +1,19 @@
 package com.findcomputerstuff.apps.battleship.entities;
 
-import java.util.List;
-
 public class Ship {
 	public static final String HAS_NO_CELLS = "NoCell Ship";
-	private final List<Cell> cells;
-	public Ship(List<Cell> shipCells){
-		cells = shipCells;
-	}
-	public List<Cell> getCells() {
-		return cells;
+	private Cell[] cells;
+
+	public Ship(Cell[] shipCells){
+		this.cells = shipCells;
 	}
 
+	public void addCell(Cell cell) {
+		Cell[] newCells = new Cell[this.cells.length + 1];
+		System.arraycopy(this.cells, 0, newCells, 0, this.cells.length);
+		newCells[this.cells.length] = cell;
+		this.cells = newCells;
+	}
 
 	public void markAsWreck() {
         for (Cell cell : cells) {
@@ -19,16 +21,20 @@ public class Ship {
         }
 	}
 	public int getSize() {
-		return cells.size();
+		return cells.length;
 	}
 	public char getLabel() {
-		if (cells == null || cells.isEmpty()) return Cell.NULL_CHARACTER;
-		return cells.get(0).getLetter();
+		if (cells == null || cells.length == 0) return Cell.NULL_CHARACTER;
+		return cells[0].getLetter();
 	}
 	public boolean isWreck() {
-		return cells.stream().allMatch(Cell::isHit);
+		for (Cell cell : cells) {
+			if (!cell.isHit()) {
+				return false;
+			}
+		}
+		return true;
 	}
-	
 	public boolean canFitWithinDimensions(int maxRows, int maxColumns) {
 		for (Cell cell : cells) {
 			if (cell.getRow() > maxRows - 1 || cell.getColumn() > maxColumns - 1) {
@@ -38,11 +44,19 @@ public class Ship {
 		}
 		return true;
 	}
-	
+
+	public Cell getCell(int index) {
+		if (index >= 0 && index < cells.length) {
+			return cells[index];
+		} else {
+			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + cells.length);
+		}
+	}
+
 	public boolean overlapsWith(Ship otherShip) {
-		for (Cell cell : cells) {		
-			for (Cell existingCell: otherShip.getCells()) {
-				if (existingCell.equals(cell)){
+		for (Cell thisCell : this.cells) {
+			for (Cell otherCell : otherShip.cells) {
+				if (thisCell.equals(otherCell)) {
 					// this cell is occupied by another ship. Cannot add
 					return true;
 				}
@@ -53,13 +67,13 @@ public class Ship {
 
 	@Override
 	public String toString() {
-		if (cells.isEmpty()) return HAS_NO_CELLS;
+		if (cells.length == 0) return HAS_NO_CELLS;
 
-		Cell firstCell = cells.get(0);
+		Cell firstCell = cells[0];
 		char letter = firstCell.getLetter();
 		int row = firstCell.getRow();
 		int column = firstCell.getColumn();
-		int size = cells.size();
+		int size = cells.length;
 
 		String orientation = getOrientation().name();
 
@@ -67,14 +81,17 @@ public class Ship {
 	}
 
 	public ShipOrientation getOrientation() {
-		if (cells.size() <= 1) return ShipOrientation.SINGLE;
+		if (cells.length <= 1) return ShipOrientation.SINGLE;
 
 		int hCount = 0;
 		int vCount = 0;
-		var firstCell = cells.get(0);
-		for(Cell cell : cells.subList(1, cells.size())){
-			if (cell.getRow() == firstCell.getRow()) hCount++;
-			if (cell.getColumn() == firstCell.getColumn()) vCount++;
+		var referenceCell = cells[0];
+		for(Cell cell : cells){
+			if (cell == referenceCell) continue;
+			if (cell.getRow() == referenceCell.getRow()) hCount++;
+			if (cell.getColumn() == referenceCell.getColumn()) vCount++;
+
+			referenceCell = cell;
 		}
 
 		if (hCount >= 1 && vCount == 0) return ShipOrientation.HORIZONTAL;

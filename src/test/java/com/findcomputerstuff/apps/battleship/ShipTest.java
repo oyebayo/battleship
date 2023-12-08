@@ -8,44 +8,45 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class ShipTest {
-    private List<Cell> shipCells;
-    private List<Cell> noCells;
-    private ArrayList<Cell> overlappingShipCells;
-    private ArrayList<Cell> farShipCells;
-    private ArrayList<Cell> wideShipCells;
-    private ArrayList<Cell> singleCell;
+    private Cell[] shipCells;
+    private Cell[] noCells;
+    private Cell[] overlappingShipCells;
+    private Cell[] farShipCells;
+    private Cell[] wideShipCells;
+    private Cell[] singleCell;
 
     @BeforeEach
     void beforeEach() {
-        shipCells = new ArrayList<>();
-        shipCells.add(new Cell(0, 0, 'A'));
-        shipCells.add(new Cell(1, 0, 'A'));
-        shipCells.add(new Cell(2, 0, 'A'));
+        Cell[] cells = new Cell[]{
+            new Cell(0, 0, 'A'),
+            new Cell(1, 0, 'A'),
+            new Cell(2, 0, 'A'),
+            new Cell(0, 0, 'B'),
+            new Cell(0, 1, 'B'),
+            new Cell(0, 2, 'B'),
+            new Cell(2, 1, 'X'),
+            new Cell(0, 0, 'A'),
+            new Cell(0, 1, 'A'),
+            new Cell(0, 2, 'A'),
+            new Cell(1, 1, 'A'),
+            new Cell(1, 2, 'A'),
+            new Cell(1, 3, 'A'),
+            new Cell(2, 3, 'A')
+        };
 
-        wideShipCells = new ArrayList<>();
-        wideShipCells.add(new Cell(0, 0, 'B'));
-        wideShipCells.add(new Cell(0, 1, 'B'));
-        wideShipCells.add(new Cell(0, 2, 'B'));
-
-        noCells = new ArrayList<>();
-
-        singleCell = new ArrayList<>();
-        singleCell.add(new Cell(2, 1, 'X'));
-
-        overlappingShipCells = new ArrayList<>();
-        overlappingShipCells.add(new Cell(0, 0, 'A'));
-        overlappingShipCells.add(new Cell(0, 1, 'A'));
-        overlappingShipCells.add(new Cell(0, 2, 'A'));
-
-        farShipCells = new ArrayList<>();
-        farShipCells.add(new Cell(1, 1, 'A'));
-        farShipCells.add(new Cell(1, 2, 'A'));
-        farShipCells.add(new Cell(1, 3, 'A'));
+        shipCells = Arrays.copyOfRange(cells, 0, 3);
+        wideShipCells = Arrays.copyOfRange(cells, 3, 6);
+        noCells = new Cell[]{};
+        singleCell = Arrays.copyOfRange(cells, 6, 7);
+        overlappingShipCells = Arrays.copyOfRange(cells, 7, 10);
+        farShipCells = Arrays.copyOfRange(cells, 10, 14);
     }
+
     @Test
     public void testShipCreation() {
         Ship ship = new Ship(shipCells);
@@ -123,7 +124,7 @@ public class ShipTest {
         ship =  new Ship(shipCells);
         assertEquals(ShipOrientation.VERTICAL, ship.getOrientation());
 
-        ship.getCells().add(new Cell(0, 1, 'A'));
+        ship =  new Ship(farShipCells);
         assertEquals(ShipOrientation.UNKNOWN, ship.getOrientation());
 
     }
@@ -142,9 +143,10 @@ public class ShipTest {
         ship = new Ship(shipCells);
         assertEquals("3A at (0,0), VERTICAL", ship.toString());
 
-        ship.getCells().add(new Cell(0, 1, 'A'));
-        assertEquals("4A at (0,0), UNKNOWN", ship.toString());
+        ship = new Ship(farShipCells);
+        assertEquals("4A at (1,1), UNKNOWN", ship.toString());
     }
+
 
     @AfterEach
     void afterEach() {

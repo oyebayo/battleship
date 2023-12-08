@@ -32,12 +32,11 @@ public class Grid {
                 Ship neighbourShip = findAnyAdjacentShipWithSameLabel(i, j, fleet);
                 // If no adjacent ship found, create a new ship ID and add the current cell
                 if (neighbourShip == null) {
-                    List<Cell> shipCells = new ArrayList<>();
-                    shipCells.add(thisCell);
-                    Ship ship = new Ship(shipCells);
+                    Cell[] cells = new Cell[]{thisCell};
+                    Ship ship = new Ship(cells);
                     fleet.addShip(ship);
                 } else {
-                    neighbourShip.getCells().add(thisCell);
+                    neighbourShip.addCell(thisCell);
                 }
             }
         }

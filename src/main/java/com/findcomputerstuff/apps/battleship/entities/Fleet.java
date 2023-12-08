@@ -26,7 +26,8 @@ public class Fleet {
 	}
 	public Ship getShipAt(int row, int column) {
 		for(Ship ship : ships) {
-			for (Cell cell : ship.getCells()) {
+			for (int i = 0; i < ship.getSize(); i++) {
+				Cell cell = ship.getCell(i);
 				if (cell.getColumn() == column && cell.getRow() == row) {
 					// we found a ship
 					return ship;
@@ -77,7 +78,7 @@ public class Fleet {
 				if (ship == null){
 					resultBuilder.append('.');
 				} else {
-					resultBuilder.append(ship.getCells().get(0).getLetter());
+					resultBuilder.append(ship.getCell(0).getLetter());
 				}
 
 				// see if we have reached the end of a row, but not end of the fleet

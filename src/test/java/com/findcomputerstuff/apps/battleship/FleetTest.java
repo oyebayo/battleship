@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,38 +17,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class FleetTest {
 
     private Ship[] ships;
-    private ArrayList<Cell> shipCells;
-    private ArrayList<Cell> farShipCells;
-    private ArrayList<Cell> wideShipCells;
+    private Cell[] shipCells;
 
     @BeforeEach
     void setUp() {
         ships = new Ship[3];
 
-        shipCells = new ArrayList<>();
-        shipCells.add(new Cell(0, 0, 'A'));
-        shipCells.add(new Cell(1, 0, 'A'));
-        shipCells.add(new Cell(2, 0, 'A'));
-        ships[0] = new Ship(shipCells);
-
-        wideShipCells = new ArrayList<>();
-        wideShipCells.add(new Cell(0, 1, 'B'));
-        wideShipCells.add(new Cell(0, 2, 'B'));
-        wideShipCells.add(new Cell(0, 3, 'B'));
-        ships[1] = new Ship(wideShipCells);
-
-        farShipCells = new ArrayList<>();
-        farShipCells.add(new Cell(3, 2, 'A'));
-        farShipCells.add(new Cell(3, 3, 'A'));
-        ships[2] = new Ship(farShipCells);
+        shipCells = new Cell[]{
+            new Cell(0, 0, 'A'),
+            new Cell(1, 0, 'A'),
+            new Cell(2, 0, 'A'),
+            new Cell(0, 1, 'B'),
+            new Cell(0, 2, 'B'),
+            new Cell(0, 3, 'B'),
+            new Cell(3, 2, 'A'),
+            new Cell(3, 3, 'A')
+        };
+        ships[0] = new Ship(Arrays.copyOfRange(shipCells, 0, 3));
+        ships[1] = new Ship(Arrays.copyOfRange(shipCells, 3, 6));
+        ships[2] = new Ship(Arrays.copyOfRange(shipCells, 6, 8));
     }
 
     @AfterEach
     void tearDown() {
         shipCells = null;
         ships = null;
-        wideShipCells = null;
-        farShipCells = null;
     }
 
     @Test
@@ -95,7 +89,7 @@ class FleetTest {
     @Test
     void testFleetAddShip() {
     	Fleet fleet = new Fleet(ships, 4, 4);
-    	Ship newShip = new Ship(List.of(new Cell(2, 1, 'C')));
+    	Ship newShip = new Ship(new Cell[]{new Cell(2, 1, 'C')});
     	assertEquals(1, fleet.addShip(newShip));
         assertEquals(4, fleet.size());
     }
@@ -103,11 +97,11 @@ class FleetTest {
     @Test
     void testFleetAddShip_noFit() {
     	Fleet fleet = new Fleet(ships, 4, 4);
-    	Ship newShip = new Ship(List.of(
+    	Ship newShip = new Ship(new Cell[]{
                 new Cell(0, 1, 'C'),
                 new Cell(0, 2, 'C'),
                 new Cell(0, 3, 'C'),
-                new Cell(0, 4, 'C')));
+                new Cell(0, 4, 'C')});
 
     	assertEquals(0, fleet.addShip(newShip));
         assertEquals(3, fleet.size());
@@ -116,11 +110,11 @@ class FleetTest {
     @Test
     void testFleetAddShip_overlap() {
     	Fleet fleet = new Fleet(ships, 4, 4);
-    	Ship newShip = new Ship(List.of(
+    	Ship newShip = new Ship(new Cell[]{
                 new Cell(0, 0, 'C'),
                 new Cell(1, 0, 'C'),
                 new Cell(2, 0, 'C'),
-                new Cell(3, 0, 'C')));
+                new Cell(3, 0, 'C')});
 
     	assertEquals(0, fleet.addShip(newShip));
         assertEquals(3, fleet.size());

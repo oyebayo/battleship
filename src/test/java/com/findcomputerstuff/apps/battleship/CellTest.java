@@ -21,7 +21,7 @@ public class CellTest {
     @Test
     public void equalsReturnsFalseForDifferentCells() {
         Cell cell1 = new Cell(1, 1, 'A');
-        Cell cell2 = new Cell(2, 2, 'B');
+        Cell cell2 = new Cell(2, 2, 'A');
         assertNotEquals(cell1, cell2);
     }
 

@@ -24,7 +24,7 @@ class PlayerTest {
         D.....B.....
         D.........CC
         */
-        var shipCells = Arrays.asList(
+        var shipCells = new Cell[]{
                 new Cell(0, 0, 'D'),
                 new Cell(1, 0, 'D'),
                 new Cell(2, 0, 'D'),
@@ -38,13 +38,13 @@ class PlayerTest {
                 new Cell(0, 10, 'C'),
                 new Cell(2, 10, 'C'),
                 new Cell(2, 11, 'C')
-        );
+        };
 
-        ships[0] = new Ship(shipCells.stream().limit(3).toList());
-        ships[1] = new Ship(shipCells.stream().skip(3).limit(3).toList());
-        ships[2] = new Ship(shipCells.stream().skip(6).limit(2).toList());
-        ships[3] = new Ship(shipCells.stream().skip(8).limit(3).toList());
-        ships[4] = new Ship(shipCells.stream().skip(11).limit(2).toList());
+        ships[0] = new Ship(Arrays.copyOfRange(shipCells, 0, 3));
+        ships[1] = new Ship(Arrays.copyOfRange(shipCells, 3, 6));
+        ships[2] = new Ship(Arrays.copyOfRange(shipCells, 6, 8));
+        ships[3] = new Ship(Arrays.copyOfRange(shipCells, 8, 11));
+        ships[4] = new Ship(Arrays.copyOfRange(shipCells, 11, 13));
 
         fleet = new Fleet(ships, 3, 12);
     }
