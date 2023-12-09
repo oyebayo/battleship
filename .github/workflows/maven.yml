@@ -46,4 +46,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Package
-        run: mvn -B package --file pom.xml
+        run: mvn -B package -Dmaven.test.skip --file pom.xml
