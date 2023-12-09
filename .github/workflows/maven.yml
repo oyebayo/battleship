@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Compile
-        run: mvn -B compile --file pom.xml
+        run: mvn -B compile -Dmaven.test.skip --file pom.xml
 
   test:
     needs: compile
@@ -32,7 +32,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Test
-        run: mvn surefire:test --file pom.xml
+        run: mvn -B test --file pom.xml
 
   package:
     needs: test
