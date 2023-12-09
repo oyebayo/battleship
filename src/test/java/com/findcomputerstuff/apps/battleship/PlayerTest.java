@@ -18,12 +18,6 @@ class PlayerTest {
     @BeforeEach
     void beforeEach() {
         Ship[] ships = new Ship[5]; // empty array
-
-        /*
-        DAAA..B.CCC.
-        D.....B.....
-        D.........CC
-        */
         var shipCells = new Cell[]{
                 new Cell(0, 0, 'D'),
                 new Cell(1, 0, 'D'),

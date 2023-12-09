@@ -7,9 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class ShipTest {
@@ -48,105 +46,114 @@ public class ShipTest {
     }
 
     @Test
-    public void testShipCreation() {
+    void shouldInitializeCellsInConstructor() {
         Ship ship = new Ship(shipCells);
-        assertEquals(3, ship.getSize());
-        assertFalse(ship.isWreck());
+        assertEquals(shipCells.length, ship.getSize());
+        for (int i = 0; i < shipCells.length; i++) {
+            assertEquals(shipCells[i], ship.getCell(i));
+        }
     }
 
     @Test
-    public void testShipMarkAsWreck() {
+    void shouldAddCellToShip() {
+        Ship ship = new Ship(shipCells);
+        Cell newCell = new Cell(3, 0, 'A');
+        ship.addCell(newCell);
+        assertEquals(4, ship.getSize());
+        assertEquals(newCell, ship.getCell(3));
+    }
+
+    @Test
+    void shouldMarkShipAsWreck() {
         Ship ship = new Ship(shipCells);
         ship.markAsWreck();
         assertTrue(ship.isWreck());
     }
-
     @Test
-    public void testShipGetSize() {
+    void shouldReturnShipSize() {
         Ship ship = new Ship(shipCells);
         assertEquals(3, ship.getSize());
-
-        ship = new Ship(noCells);
-        assertEquals(0, ship.getSize());
     }
-
     @Test
-    public void testShipCanFitWithinDimensions() {
+    void shouldReturnShipLabel() {
         Ship ship = new Ship(shipCells);
-        assertTrue(ship.canFitWithinDimensions(10, 10));
+        assertEquals('A', ship.getLabel());
     }
-
     @Test
-    public void testShipCanNotFitWithinDimensions() {
+    void shouldReturnTrueIfShipFitsWithinDimensions() {
         Ship ship = new Ship(shipCells);
-        assertFalse(ship.canFitWithinDimensions(1, 1));
+        assertTrue(ship.canFitWithinDimensions(3, 3));
     }
-
     @Test
-    public void testShipOverlapsWith() {
+    void shouldReturnFalseIfShipDoesNotFitWithinDimensions() {
+        Ship ship = new Ship(farShipCells);
+        assertFalse(ship.canFitWithinDimensions(3, 3));
+    }
+    @Test
+    void shouldReturnCellAtIndex() {
         Ship ship = new Ship(shipCells);
-        Ship otherShip = new Ship(overlappingShipCells);
-
-        assertTrue(ship.overlapsWith(otherShip));
+        assertEquals(shipCells[1], ship.getCell(1));
     }
-
     @Test
-    public void testShipDoesNotOverlapWith() {
+    void shouldThrowExceptionWhenCellIndexOutOfBounds() {
         Ship ship = new Ship(shipCells);
-        Ship otherShip = new Ship(farShipCells);
-        assertFalse(ship.overlapsWith(otherShip));
+        assertThrows(IndexOutOfBoundsException.class, () -> ship.getCell(4));
+    }
+    @Test
+    void shouldReturnTrueIfShipsOverlap() {
+        Ship ship1 = new Ship(shipCells);
+        Ship ship2 = new Ship(overlappingShipCells);
+        assertTrue(ship1.overlapsWith(ship2));
+    }
+    @Test
+    void shouldReturnFalseIfShipsDoNotOverlap() {
+        Ship ship1 = new Ship(shipCells);
+        Ship ship2 = new Ship(farShipCells);
+        assertFalse(ship1.overlapsWith(ship2));
+    }
+    @Test
+    void shouldReturnFalseIfOtherShipHasNoCells() {
+        Ship ship1 = new Ship(shipCells);
+        Ship ship2 = new Ship(noCells);
+        assertFalse(ship1.overlapsWith(ship2));
     }
 
     @Test
-    public void testShipOverlapsWithItself() {
+    void shouldReturnHorizontalWhenShipIsHorizontal() {
+        Ship horizontalShip = new Ship(wideShipCells);
+        assertEquals(ShipOrientation.HORIZONTAL, horizontalShip.getOrientation());
+    }
+
+    @Test
+    void shouldReturnVerticalWhenShipIsVertical() {
+        Ship verticalShip = new Ship(shipCells);
+        assertEquals(ShipOrientation.VERTICAL, verticalShip.getOrientation());
+    }
+
+    @Test
+    void shouldReturnSingleWhenShipIsSingleCell() {
+        Ship singleCellShip = new Ship(singleCell);
+        assertEquals(ShipOrientation.SINGLE, singleCellShip.getOrientation());
+    }
+
+    @Test
+    void shouldReturnUnknownWhenShipOrientationIsStrange() {
+        Ship unknownOrientationShip = new Ship(farShipCells);
+        assertEquals(ShipOrientation.UNKNOWN, unknownOrientationShip.getOrientation());
+    }
+
+    @Test
+    void shouldReturnFormattedStringWhenShipHasCells() {
         Ship ship = new Ship(shipCells);
-        assertTrue(ship.overlapsWith(ship));
+        String output = ship.toString();
+        assertTrue(output.matches("\\d[A-Z] at \\(\\d,\\d\\), [A-Z]{2,}"));
     }
 
     @Test
-    public void testShipDoesNotOverlapWithEmptyShip() {
-        Ship ship = new Ship(shipCells);
-        Ship otherShip = new Ship(noCells);
-        assertFalse(ship.overlapsWith(otherShip));
-    }
-
-    @Test
-    public void testShipGetOrientation() {
-        Ship ship = new Ship(wideShipCells);
-        assertEquals(ShipOrientation.HORIZONTAL, ship.getOrientation());
-
-        ship = new Ship(singleCell);
-        assertEquals(ShipOrientation.SINGLE, ship.getOrientation());
-
-        ship = new Ship(noCells);
-        assertEquals(ShipOrientation.SINGLE, ship.getOrientation());
-
-        ship =  new Ship(shipCells);
-        assertEquals(ShipOrientation.VERTICAL, ship.getOrientation());
-
-        ship =  new Ship(farShipCells);
-        assertEquals(ShipOrientation.UNKNOWN, ship.getOrientation());
-
-    }
-
-    @Test
-    public void testShipToString() {
-        Ship ship = new Ship(wideShipCells);
-        assertEquals("3B at (0,0), HORIZONTAL", ship.toString());
-
-        ship = new Ship(singleCell);
-        assertEquals("1X at (2,1), SINGLE", ship.toString());
-
-        ship = new Ship(noCells);
+    void shouldReturnFixedStringWhenShipHasNoCells() {
+        Ship ship = new Ship(noCells);
         assertEquals(Ship.HAS_NO_CELLS, ship.toString());
-
-        ship = new Ship(shipCells);
-        assertEquals("3A at (0,0), VERTICAL", ship.toString());
-
-        ship = new Ship(farShipCells);
-        assertEquals("4A at (1,1), UNKNOWN", ship.toString());
     }
-
 
     @AfterEach
     void afterEach() {

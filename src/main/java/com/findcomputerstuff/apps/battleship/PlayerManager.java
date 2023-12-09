@@ -139,8 +139,8 @@ public class PlayerManager {
         }
     }
 
-    // Method to advance the  turn to the next player, skipping over any eliminated players
-    void moveToNextPlayer() {
+    // Method to advance the turn to the next player, skipping over any eliminated players
+    private void moveToNextPlayer() {
         do{
             // modulo operator will ensure the indices remain less than max players
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
@@ -149,7 +149,7 @@ public class PlayerManager {
 
     // Method to check if the game is over
     // Checks if the game is over based on the number of players who still have ships remaining
-    boolean hasLessActivePlayersThanRequired() {
+    public boolean hasLessActivePlayersThanRequired() {
         int activePlayers = 0;
         for (Player player : players) {
             if (player.getFleet().hasRemainingShips())
@@ -161,7 +161,7 @@ public class PlayerManager {
 
     // Method to get the winning player
     // Determines the winning player based on score, with ties broken by who is not eliminated
-    Player getWinningPlayer() {
+    public Player getWinningPlayer() {
         Player winner = null;
         for (Player player : players) {
             if (winner == null || player.getScore() > winner.getScore()) {
@@ -197,7 +197,7 @@ public class PlayerManager {
 
     // Method to process score command
     // Displays the score of a specified player
-    void printPlayerScore(String playerName){
+    public void printPlayerScore(String playerName){
         Player player = getPlayerByName(playerName);
         if (player != null) {
             output.println(player.getName() + " has " + player.getScore() + " points");
@@ -206,7 +206,7 @@ public class PlayerManager {
 
     // Method to process fleet command
     // Displays the fleet grid of a specified player
-    void printPlayerFleet(String playerName){
+    public void printPlayerFleet(String playerName){
         Player player = getPlayerByName(playerName);
         if (player != null) {
             output.println(player.getFleet().printGrid());
