@@ -40,6 +40,7 @@ gradle-app.setting
 ## IntelliJ
 ##############################
 out/
+.idea/
 .idea_modules/
 *.ipr
 *.iws
@@ -80,4 +81,4 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
-/.idea/workspace.xml
+
