@@ -8,6 +8,7 @@ on:
 
 jobs:
   compile:
+    name: Compile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,6 +22,7 @@ jobs:
         run: mvn -B compile -Dmaven.test.skip --file pom.xml
 
   test:
+    name: Unit Tests
     needs: compile
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +37,7 @@ jobs:
         run: mvn -B test --file pom.xml
 
   analyze:
+    name: CodeQL Analysis
     needs: test
     runs-on: 'ubuntu-latest'
     strategy:
@@ -69,6 +72,7 @@ jobs:
           category: "/language:${{matrix.language}}"
 
   package:
+    name: Package
     needs: test
     runs-on: ubuntu-latest
     steps:
