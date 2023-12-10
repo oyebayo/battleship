@@ -35,10 +35,15 @@ jobs:
           cache: maven
       - name: Test
         run: mvn -B test --file pom.xml
+      - name: Coverage Reports
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   analyze:
     name: CodeQL Analysis
     needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: 'ubuntu-latest'
     strategy:
       fail-fast: false
@@ -74,6 +79,7 @@ jobs:
   package:
     name: Package
     needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
