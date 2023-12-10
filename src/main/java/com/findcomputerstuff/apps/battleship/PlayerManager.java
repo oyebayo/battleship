@@ -38,8 +38,7 @@ public class PlayerManager {
 
             int playerCount = Integer.parseInt(scanner.nextLine().trim());
             if (playerCount < MIN_PLAYERS) {
-                output.println("Invalid input. You must have at least " + MIN_PLAYERS + " players.");
-                return;
+                throw new IllegalArgumentException("You must have at least " + MIN_PLAYERS + " players.");
             }
 
             for (int i = 1; i <= playerCount; i++) {
@@ -47,8 +46,7 @@ public class PlayerManager {
                 int fleetNumber = Integer.parseInt(scanner.nextLine().trim());
 
                 if (fleetNumber < 1 || fleetNumber > fleetDataLoader.getFleetCount()) {
-                    output.println("Invalid fleet number. Please enter a valid fleet number.");
-                    return;
+                    throw new IllegalArgumentException("Please enter a valid fleet number.");
                 }
 
                 Grid grid = new Grid(fleetDataLoader.getFleetStrings(fleetNumber - 1));
@@ -58,7 +56,7 @@ public class PlayerManager {
             }
 
             playersInitialized = true;
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             output.println("Invalid input. Please enter valid values.");
             players.clear();
         }

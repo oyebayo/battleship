@@ -87,6 +87,34 @@ public class PlayerManagerTest {
     }
 
     @Test
+    public void initializePlayersFailsWithLessThanTwoPlayers() {
+        String input = "1\nHan Solo\n1\n";
+        playerManager.initializePlayers(new Scanner(input));
+        assertFalse(playerManager.isInitialized());
+    }
+
+    @Test
+    public void initializePlayersFailsWithZeroFleetNumber() {
+        String input = "2\nHan Solo\n0\nDarth Vader\n2\n"; // 0 is an invalid fleet number
+        playerManager.initializePlayers(new Scanner(input));
+        assertFalse(playerManager.isInitialized());
+    }
+
+    @Test
+    public void initializePlayersFailsWithInvalidFleetNumber() {
+        String input = "2\nHan Solo\n6\nDarth Vader\n2\n"; // 6 is an invalid fleet number
+        playerManager.initializePlayers(new Scanner(input));
+        assertFalse(playerManager.isInitialized());
+    }
+
+    @Test
+    public void initializePlayersFailsWithBlankPlayerName() {
+        String input = "2\n\n1\nDarth Vader\n2\n";
+        playerManager.initializePlayers(new Scanner(input));
+        assertFalse(playerManager.isInitialized());
+    }
+
+    @Test
     public void printNextPlayerDisplaysCorrectly() {
         playerManager.initializePlayers(new Scanner(startInput));
         playerManager.printNextPlayer();
@@ -182,9 +210,23 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void takeShotWithIncorrectFormatReturnsError() {
+    public void takeShotWithIncorrectNumberOfCoordinatesReturnsError() {
         playerManager.initializePlayers(new Scanner(startInput));
         playerManager.takeShot("1 Darth Vader");
+        assertEquals("Invalid command\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotWithOneCoordinateNonNumericReturnsError() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.takeShot("b 1 Darth Vader");
+        assertEquals("Invalid command\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotWithNonNumericCoordinatesReturnsError() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.takeShot("a b Darth Vader");
         assertEquals("Invalid command\n", outContent.toString());
     }
 
@@ -198,7 +240,7 @@ public class PlayerManagerTest {
     @Test
     public void takeShotOutsideGridMinimumReturnsError() {
         playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("-1 10 Darth Vader");
+        playerManager.takeShot("-1 -10 Darth Vader");
         assertEquals("Invalid shot\n", outContent.toString());
     }
 
@@ -208,6 +250,16 @@ public class PlayerManagerTest {
         playerManager.takeShot("2 2 Darth Vader"); // Han Solo scores 0 points
         playerManager.printPlayerScore("Han Solo");
         assertEquals("Han Solo has 0 points\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotOnWreckCellReturnsWreckPoints() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.takeShot("1 1 Darth Vader"); // Han Solo scores 300 points
+        playerManager.takeShot("1 1 Han Solo"); // Darth Vader scores 300 points
+        playerManager.takeShot("1 1 Darth Vader"); // Han Solo scores -90 points because wreck
+        playerManager.printPlayerScore("Han Solo");
+        assertEquals("Han Solo has 210 points\n", outContent.toString());
     }
 
     @Test
@@ -231,5 +283,19 @@ public class PlayerManagerTest {
         playerManager.printPlayerFleet("Han Solo");
         String expectedFleetRepresentation = "RRRGG.R.\n......R.\n.BB...R.\n"; // This should be replaced with the actual expected fleet representation
         assertEquals(expectedFleetRepresentation, outContent.toString());
+    }
+
+    @Test
+    public void printPlayerFleetReturnsErrorForNonexistentPlayer() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.printPlayerFleet("nobody");
+        assertEquals("Nonexistent player\n", outContent.toString());
+    }
+
+    @Test
+    public void printPlayerScoreReturnsErrorForNonexistentPlayer() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.printPlayerScore("nobody");
+        assertEquals("Nonexistent player\n", outContent.toString());
     }
 }
