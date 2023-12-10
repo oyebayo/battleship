@@ -35,6 +35,10 @@ jobs:
           cache: maven
       - name: Test
         run: mvn -B test --file pom.xml
+      - name: Coverage Reports
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   analyze:
     name: CodeQL Analysis
