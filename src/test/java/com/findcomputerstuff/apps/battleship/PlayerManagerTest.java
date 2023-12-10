@@ -133,6 +133,15 @@ public class PlayerManagerTest {
     }
 
     @Test
+    public void printPlayersSortedByScoreDisplaysCorrectOrderWhenGameIsTied() {
+        String tiedInput = "3\nHan Solo\n4\nDarth Vader\n4\nLeia\n5\n";
+        playerManager.initializePlayers(new Scanner(tiedInput));
+        playTiedGame();
+        playerManager.printPlayersSortedByScore();
+        assertEquals("Darth Vader has 500 points\nHan Solo has 500 points\nLeia has 400 points\n", outContent.toString());
+    }
+
+    @Test
     public void getWinningPlayerReturnsCorrectly() {
         playerManager.initializePlayers(new Scanner(startInput));
         playTwoPlayerGameToEliminatePlayer1();
@@ -180,9 +189,16 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void takeShotOutsideGridReturnsError() {
+    public void takeShotOutsideGridMaximumReturnsError() {
         playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("100 100 Darth Vader");
+        playerManager.takeShot("25 25 Darth Vader");
+        assertEquals("Invalid shot\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotOutsideGridMinimumReturnsError() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.takeShot("-1 10 Darth Vader");
         assertEquals("Invalid shot\n", outContent.toString());
     }
 
@@ -192,5 +208,28 @@ public class PlayerManagerTest {
         playerManager.takeShot("2 2 Darth Vader"); // Han Solo scores 0 points
         playerManager.printPlayerScore("Han Solo");
         assertEquals("Han Solo has 0 points\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotOnNonExistentPlayerReturnsError() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.takeShot("1 1 nobody"); // Attempt to take a shot on non-existent player
+        assertEquals("Nonexistent player\n", outContent.toString());
+    }
+
+    @Test
+    public void takeShotWhenGameIsOverReturnsError() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playTwoPlayerGameToEliminatePlayer1();
+        playerManager.takeShot("1 1 Han Solo"); // Attempt to take a shot on non-existent player
+        assertEquals("The game is over\n", outContent.toString());
+    }
+
+    @Test
+    public void printPlayerFleetDisplaysCorrectly() {
+        playerManager.initializePlayers(new Scanner(startInput));
+        playerManager.printPlayerFleet("Han Solo");
+        String expectedFleetRepresentation = "RRRGG.R.\n......R.\n.BB...R.\n"; // This should be replaced with the actual expected fleet representation
+        assertEquals(expectedFleetRepresentation, outContent.toString());
     }
 }
