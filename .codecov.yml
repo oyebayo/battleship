@@ -1,5 +1,0 @@
-codecov:
-  status:
-    project:
-      default:
-        label: "Code Coverage"
