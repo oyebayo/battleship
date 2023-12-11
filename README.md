@@ -1,7 +1,8 @@
 ## Battleship II
 
-[![Code Coverage](https://codecov.io/gh/oyebayo/battleship/graph/badge.svg?token=2M6ND653YT)](https://codecov.io/gh/oyebayo/battleship)
-[![CodeQL Analysis](https://github.com/oyebayo/battleship/actions/workflows/default.yml/badge.svg?job=analyze&branch=main&event=push&label=CodeQL)](https://github.com/oyebayo/battleship/actions/workflows/default.yml)
+[![Build Status](https://github.com/oyebayo/battleship/actions/workflows/default.yml/badge.svg?job=test&branch=main&event=push&label=Build+Status)](https://github.com/oyebayo/battleship/actions/workflows/default.yml)
+[![Code Coverage](https://codecov.io/gh/oyebayo/battleship/graph/badge.svg?token=2M6ND653YT&label=Code+Coverage)](https://codecov.io/gh/oyebayo/battleship)
+[![CodeQL Analysis](https://github.com/oyebayo/battleship/actions/workflows/codeql.yml/badge.svg?job=analyze&branch=main&event=push&label=CodeQL)](https://github.com/oyebayo/battleship/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Description
