@@ -2,7 +2,6 @@ package com.findcomputerstuff.apps.battleship;
 
 import com.findcomputerstuff.apps.battleship.entities.Fleet;
 import com.findcomputerstuff.apps.battleship.entities.Player;
-import com.findcomputerstuff.apps.battleship.entities.GameEndException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GameTest {
+class GameTest {
     private Game game;
     private CommandProcessor commandProcessor;
     private PlayerManager playerManager;
@@ -21,7 +20,7 @@ public class GameTest {
     private ByteArrayOutputStream output;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         commandProcessor = mock(CommandProcessor.class);
         playerManager = mock(PlayerManager.class);
         scanner = new Scanner("quit");
@@ -30,7 +29,7 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartsWithoutPlayers() {
+    void gameStartsWithoutPlayers() {
         when(playerManager.isInitialized()).thenReturn(false);
         game.start(scanner, new PrintStream(output));
         verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
@@ -38,37 +37,36 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartsWithPlayersAndQuits() {
-        Fleet fleet = mock(Fleet.class);
-        when(playerManager.isInitialized()).thenReturn(true);
-        when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(true);
-        when(playerManager.getWinningPlayer()).thenReturn(new Player("Winner", fleet));
-        game.start(scanner, new PrintStream(output));
-        verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
-        assertTrue(output.toString().contains("Winner won the game"));
-    }
-
-    @Test
-    public void gameStartsWithPlayersAndQuitsWithoutWinner() {
+    void gameStartsWithPlayersInitialized() {
+        scanner = new Scanner("command\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(false);
         game.start(scanner, new PrintStream(output));
         verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
-        assertEquals("The game was not over yet...\n", output.toString());
     }
 
     @Test
-    public void gameProcessesCommand() {
+    void gameExecutesProvidedCommand() {
         scanner = new Scanner("command\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
         verify(commandProcessor, times(1)).processCommand(any(Scanner.class), eq("command"));
     }
     @Test
-    public void gameEndsWhenQuitCommandIsProcessed() {
-        scanner = new Scanner("command\nquit");
+    void gameDoesntEndsWhenQuitCommandIsProcessedAndGameIsNotOver() {
+        scanner = new Scanner("command\nquit\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
         assertEquals("The game was not over yet...\n", output.toString());
+    }
+
+    @Test
+    void gameEndsWhenQuitCommandIsProcessedAndGameIsOver() {
+        scanner = new Scanner("command\nquit");
+        when(playerManager.isInitialized()).thenReturn(true);
+        when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(true);
+        when(playerManager.getWinningPlayer()).thenReturn(new Player("Winner", mock(Fleet.class)));
+        game.start(scanner, new PrintStream(output));
+        assertEquals("Winner won the game\n", output.toString());
     }
 }

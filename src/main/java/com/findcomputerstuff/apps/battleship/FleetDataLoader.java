@@ -1,7 +1,5 @@
 package com.findcomputerstuff.apps.battleship;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;

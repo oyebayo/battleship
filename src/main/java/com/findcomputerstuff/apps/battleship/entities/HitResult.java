@@ -1,7 +1,5 @@
 package com.findcomputerstuff.apps.battleship.entities;
 
-import com.findcomputerstuff.apps.battleship.entities.HitType;
-
 public class HitResult {
 	private int cellCount;
 	private final HitType hitType;

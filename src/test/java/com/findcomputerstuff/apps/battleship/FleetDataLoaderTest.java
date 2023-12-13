@@ -8,13 +8,13 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FleetDataLoaderTest {
+class FleetDataLoaderTest {
     private FleetDataLoader fleetDataLoader;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private String complexInput;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         System.setOut(new PrintStream(outContent));
         complexInput = "2 8\nRRRGG.R.\n......R.\n" +
                 "1 14\n.D.EEDFFFDGG..\n" +
@@ -23,7 +23,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void loadSimpleFleetDataSuccessfully() {
+    void loadSimpleFleetDataSuccessfully() {
         String input = "3 12\nDAAA..B.CCC.\nD.....B.....\nD.........CC\n";
         fleetDataLoader = new FleetDataLoader(new Scanner(input), System.out);
         fleetDataLoader.load();
@@ -33,7 +33,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void loadComplexFleetDataSuccessfully() {
+    void loadComplexFleetDataSuccessfully() {
         fleetDataLoader = new FleetDataLoader(new Scanner(complexInput), System.out);
         fleetDataLoader.load();
         assertTrue(fleetDataLoader.hasLoaded());
@@ -45,7 +45,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void loadFleetDataWithIncorrectRowSize() {
+    void loadFleetDataWithIncorrectRowSize() {
         String input = "3 12\nDAAA..B.CCC..\nD.....B......\nD.........CC.\n";
         fleetDataLoader = new FleetDataLoader(new Scanner(input), System.out);
         fleetDataLoader.load();
@@ -54,7 +54,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void loadFleetDataWithMissingRows() {
+    void loadFleetDataWithMissingRows() {
         String input = "3 12\nDAAA..B.CCC.\nD.........CC\n";
         fleetDataLoader = new FleetDataLoader(new Scanner(input), System.out);
         fleetDataLoader.load();
@@ -63,7 +63,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void loadFleetDataWithException() {
+    void loadFleetDataWithException() {
         String input = "3\nDAAA..B.CCC.\nD.....B.....\nD.........CC\n";
         fleetDataLoader = new FleetDataLoader(new Scanner(input), System.out);
         fleetDataLoader.load();
@@ -73,7 +73,7 @@ public class FleetDataLoaderTest {
     }
 
     @Test
-    public void getFleetStringsForInvalidIndex() {
+    void getFleetStringsForInvalidIndex() {
         String input = "3 12\nDAAA..B.CCC.\nD.....B.....\nD.........CC\n";
         fleetDataLoader = new FleetDataLoader(new Scanner(input), System.out);
         fleetDataLoader.load();

@@ -1,10 +1,6 @@
 package com.findcomputerstuff.apps.battleship;
 
-import com.findcomputerstuff.apps.battleship.entities.HitResult;
-import com.findcomputerstuff.apps.battleship.entities.Player;
-
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Scanner;
 
 public class CommandProcessor {
