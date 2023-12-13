@@ -1,24 +1,24 @@
 package com.findcomputerstuff.apps.battleship.entities;
 
 public class Grid {
-    private final char[][] grid;
+    private final char[][] chars;
     public Grid(String[] gridStrings){
         int rows = gridStrings.length;
         int cols = gridStrings[0].length();
 
-        grid = new char[rows][cols];
+        chars = new char[rows][cols];
         for (int i = 0; i < rows; i++) {
-            grid[i] = gridStrings[i].toCharArray();
+            chars[i] = gridStrings[i].toCharArray();
         }
     }
 
     public Fleet convertToFleet(){
         Ship[] ships = new Ship[]{};
-        Fleet fleet = new Fleet(ships, grid.length, grid[0].length);
+        Fleet fleet = new Fleet(ships, chars.length, chars[0].length);
 
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                char currentChar = grid[i][j];
+        for (int i = 0; i < chars.length; i++) {
+            for (int j = 0; j < chars[i].length; j++) {
+                char currentChar = chars[i][j];
 
                 // Skip dots (empty cells)
                 if (currentChar == Cell.BLANK_CHARACTER) {
@@ -52,10 +52,10 @@ public class Grid {
                 case RIGHT -> newCol++;
             }
 
-            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid[row].length) {
+            if (newRow >= 0 && newRow < chars.length && newCol >= 0 && newCol < chars[row].length) {
                 Ship adjacentShip = fleet.getShipAt(newRow, newCol);
                 if (adjacentShip == null) continue;
-                if (adjacentShip.getLabel() != grid[row][col]) continue;
+                if (adjacentShip.getLabel() != chars[row][col]) continue;
 
                 return adjacentShip;
             }
