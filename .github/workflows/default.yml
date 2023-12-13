@@ -41,7 +41,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build:
-    name: SonarCloud Scan
+    name: SonarCloud
     needs: test
     runs-on: ubuntu-latest
     steps:
