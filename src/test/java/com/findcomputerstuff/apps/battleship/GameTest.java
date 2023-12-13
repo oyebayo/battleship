@@ -2,7 +2,6 @@ package com.findcomputerstuff.apps.battleship;
 
 import com.findcomputerstuff.apps.battleship.entities.Fleet;
 import com.findcomputerstuff.apps.battleship.entities.Player;
-import com.findcomputerstuff.apps.battleship.entities.GameEndException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
