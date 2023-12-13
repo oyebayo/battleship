@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FleetDataLoader {
-    public static final String FLEET_FILE_PATH = "fleets.txt";
     private final List<String[]> fleetData;
     private final PrintStream output;
     private int fleetCount;
