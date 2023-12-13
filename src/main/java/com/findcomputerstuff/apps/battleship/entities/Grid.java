@@ -12,7 +12,7 @@ public class Grid {
         }
     }
 
-    public Fleet ConvertToFleet(){
+    public Fleet convertToFleet(){
         Ship[] ships = new Ship[]{};
         Fleet fleet = new Fleet(ships, grid.length, grid[0].length);
 

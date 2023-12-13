@@ -50,7 +50,7 @@ public class PlayerManager {
                 }
 
                 Grid grid = new Grid(fleetDataLoader.getFleetStrings(fleetNumber - 1));
-                Fleet newFleet = grid.ConvertToFleet();
+                Fleet newFleet = grid.convertToFleet();
                 Player player = new Player(playerName, newFleet);
                 players.add(player);
             }
