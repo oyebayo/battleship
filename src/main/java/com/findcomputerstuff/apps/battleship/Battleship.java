@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Battleship {
@@ -28,7 +29,7 @@ public class Battleship {
             Game game = new Game(commandProcessor, playerManager);
             game.start(inputScanner, printStream);
         } catch (FileNotFoundException e) {
-            logger.warning("Fleet file not found: " + e.getMessage());
+            logger.log(Level.SEVERE, String.format("Fleet file not found: %s", e.getMessage()));
         }
     }
 }
