@@ -64,10 +64,20 @@ class GameTest {
         verify(commandProcessor, times(1)).processCommand(any(Scanner.class), eq("command"));
     }
     @Test
-    void gameEndsWhenQuitCommandIsProcessed() {
+    void gameDoesntEndsWhenQuitCommandIsProcessedAndGameIsntOver() {
         scanner = new Scanner("command\nquit");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
         assertEquals("The game was not over yet...\n", output.toString());
+    }
+
+    @Test
+    void gameEndsWhenQuitCommandIsProcessedAndGameIsOver() {
+        scanner = new Scanner("command\nquit");
+        when(playerManager.isInitialized()).thenReturn(true);
+        when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(true);
+        when(playerManager.getWinningPlayer()).thenReturn(new Player("Winner", mock(Fleet.class)));
+        game.start(scanner, new PrintStream(output));
+        assertEquals("Winner won the game\n", output.toString());
     }
 }
