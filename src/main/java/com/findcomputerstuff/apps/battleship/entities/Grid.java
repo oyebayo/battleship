@@ -1,8 +1,5 @@
 package com.findcomputerstuff.apps.battleship.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Grid {
     private final char[][] grid;
     public Grid(String[] gridStrings){
