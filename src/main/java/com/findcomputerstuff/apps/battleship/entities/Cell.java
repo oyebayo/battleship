@@ -1,5 +1,7 @@
 package com.findcomputerstuff.apps.battleship.entities;
 
+import java.util.Objects;
+
 public class Cell {
 	public static final char WRECK_CHARACTER = '*';
 	public static final char BLANK_CHARACTER = '.';
@@ -32,6 +34,10 @@ public class Cell {
 		if (o == null || getClass() != o.getClass()) return false;
 		Cell that = (Cell) o;
 		return row == that.getRow() && column == that.getColumn();
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(row, column);
 	}
     public char getLetter() {
         return letter;
