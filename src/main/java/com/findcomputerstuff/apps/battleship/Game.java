@@ -1,6 +1,5 @@
 package com.findcomputerstuff.apps.battleship;
 
-import com.findcomputerstuff.apps.battleship.entities.GameEndException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -25,11 +24,11 @@ public class Game {
             while (true) {
                 String command = scanner.hasNext() ? scanner.next() : "";
                 if (command.equals("quit")) {
-                    try {
-                        quit();
-                    } catch (GameEndException e) {
-                        output.println(e.getMessage());
+                    if (playerManager.hasLessActivePlayersThanRequired()) {
+                        output.println(playerManager.getWinningPlayer().getName() + " won the game");
                         return;
+                    }else{
+                        output.println("The game was not over yet...");
                     }
                 } else if (command.equals("bye")) {
                     break;
@@ -39,14 +38,4 @@ public class Game {
             }
         }
 	}
-
-	// Method to quit the game
-	// Ends the game prematurely, throwing an exception with a message indicating the game's outcome
-    private void quit() throws GameEndException {
-		if(playerManager.hasLessActivePlayersThanRequired()){
-			throw new GameEndException(playerManager.getWinningPlayer().getName() + " won the game");
-		} else {
-			throw new GameEndException("The game was not over yet...");
-		}
-    }
 }

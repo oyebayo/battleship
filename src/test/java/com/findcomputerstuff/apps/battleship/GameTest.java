@@ -64,7 +64,7 @@ class GameTest {
         verify(commandProcessor, times(1)).processCommand(any(Scanner.class), eq("command"));
     }
     @Test
-    void gameDoesntEndsWhenQuitCommandIsProcessedAndGameIsntOver() {
+    void gameDoesntEndsWhenQuitCommandIsProcessedAndGameIsNotOver() {
         scanner = new Scanner("command\nquit");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
