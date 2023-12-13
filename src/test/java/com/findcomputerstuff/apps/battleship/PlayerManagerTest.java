@@ -3,9 +3,14 @@ package com.findcomputerstuff.apps.battleship;
 import com.findcomputerstuff.apps.battleship.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -79,39 +84,17 @@ class PlayerManagerTest {
         assertTrue(playerManager.isInitialized());
     }
 
-    @Test
-    void initializePlayersHandlesInvalidInput() {
-        String input = "invalid\n";
+    @ParameterizedTest
+    @CsvSource({
+            "'invalid\n', false", // invalid number of players
+            "'1\nHan Solo\n1\n', false", // only 1 player
+            "'2\nHan Solo\n0\nDarth Vader\n2\n', false", // 0 is an invalid fleet number
+            "'2\nHan Solo\n6\nDarth Vader\n2\n', false", // 6 is an invalid fleet number
+            "'2\n\n1\nDarth Vader\n2\n', false" // empty player name
+    })
+    void testInitializePlayers(String input, boolean expected) {
         playerManager.initializePlayers(new Scanner(input));
-        assertFalse(playerManager.isInitialized());
-    }
-
-    @Test
-    void initializePlayersFailsWithLessThanTwoPlayers() {
-        String input = "1\nHan Solo\n1\n";
-        playerManager.initializePlayers(new Scanner(input));
-        assertFalse(playerManager.isInitialized());
-    }
-
-    @Test
-    void initializePlayersFailsWithZeroFleetNumber() {
-        String input = "2\nHan Solo\n0\nDarth Vader\n2\n"; // 0 is an invalid fleet number
-        playerManager.initializePlayers(new Scanner(input));
-        assertFalse(playerManager.isInitialized());
-    }
-
-    @Test
-    void initializePlayersFailsWithInvalidFleetNumber() {
-        String input = "2\nHan Solo\n6\nDarth Vader\n2\n"; // 6 is an invalid fleet number
-        playerManager.initializePlayers(new Scanner(input));
-        assertFalse(playerManager.isInitialized());
-    }
-
-    @Test
-    void initializePlayersFailsWithBlankPlayerName() {
-        String input = "2\n\n1\nDarth Vader\n2\n";
-        playerManager.initializePlayers(new Scanner(input));
-        assertFalse(playerManager.isInitialized());
+        assertEquals(expected, playerManager.isInitialized());
     }
 
     @Test
@@ -194,11 +177,20 @@ class PlayerManagerTest {
         assertEquals("Han Solo has 300 points\n", outContent.toString());
     }
 
-    @Test
-    void takeShotOnSelfReturnsError() {
+    @ParameterizedTest
+    @CsvSource({
+            "'1 1 Han Solo', 'Self-inflicted shot\n'", // take shot on self
+            "'1 Darth Vader', 'Invalid command\n'", // take shot with incorrect number of coordinates
+            "'b 1 Darth Vader', 'Invalid command\n'", // take shot with one coordinate non-numeric
+            "'a b Darth Vader', 'Invalid command\n'", // take shot with non-numeric coordinates
+            "'25 25 Darth Vader', 'Invalid shot\n'", // take shot outside grid maximum
+            "'-1 -10 Darth Vader', 'Invalid shot\n'", // take shot outside grid minimum
+            "'1 1 nobody', 'Nonexistent player\n'" // take shot on non-existent player
+    })
+    void testTakeShotErrors(String shotParameters, String expectedOutput) {
         playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("1 1 Han Solo");
-        assertEquals("Self-inflicted shot\n", outContent.toString());
+        playerManager.takeShot(shotParameters);
+        assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
@@ -208,42 +200,6 @@ class PlayerManagerTest {
         playerManager.takeShot("1 1 Leia"); // Attempt to take a shot on eliminated Leia
         assertEquals("Eliminated player\n", outContent.toString());
     }
-
-    @Test
-    void takeShotWithIncorrectNumberOfCoordinatesReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("1 Darth Vader");
-        assertEquals("Invalid command\n", outContent.toString());
-    }
-
-    @Test
-    void takeShotWithOneCoordinateNonNumericReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("b 1 Darth Vader");
-        assertEquals("Invalid command\n", outContent.toString());
-    }
-
-    @Test
-    void takeShotWithNonNumericCoordinatesReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("a b Darth Vader");
-        assertEquals("Invalid command\n", outContent.toString());
-    }
-
-    @Test
-    void takeShotOutsideGridMaximumReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("25 25 Darth Vader");
-        assertEquals("Invalid shot\n", outContent.toString());
-    }
-
-    @Test
-    void takeShotOutsideGridMinimumReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("-1 -10 Darth Vader");
-        assertEquals("Invalid shot\n", outContent.toString());
-    }
-
     @Test
     void takeShotOnEmptyCellReturnsZeroPoints() {
         playerManager.initializePlayers(new Scanner(startInput));
@@ -260,13 +216,6 @@ class PlayerManagerTest {
         playerManager.takeShot("1 1 Darth Vader"); // Han Solo scores -90 points because wreck
         playerManager.printPlayerScore("Han Solo");
         assertEquals("Han Solo has 210 points\n", outContent.toString());
-    }
-
-    @Test
-    void takeShotOnNonExistentPlayerReturnsError() {
-        playerManager.initializePlayers(new Scanner(startInput));
-        playerManager.takeShot("1 1 nobody"); // Attempt to take a shot on non-existent player
-        assertEquals("Nonexistent player\n", outContent.toString());
     }
 
     @Test
