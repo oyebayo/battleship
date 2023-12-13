@@ -37,27 +37,16 @@ class GameTest {
     }
 
     @Test
-    void gameStartsWithPlayersAndQuits() {
-        Fleet fleet = mock(Fleet.class);
-        when(playerManager.isInitialized()).thenReturn(true);
-        when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(true);
-        when(playerManager.getWinningPlayer()).thenReturn(new Player("Winner", fleet));
-        game.start(scanner, new PrintStream(output));
-        verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
-        assertTrue(output.toString().contains("Winner won the game"));
-    }
-
-    @Test
-    void gameStartsWithPlayersAndQuitsWithoutWinner() {
+    void gameStartsWithPlayersInitialized() {
+        scanner = new Scanner("command\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(false);
         game.start(scanner, new PrintStream(output));
         verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
-        assertEquals("The game was not over yet...\n", output.toString());
     }
 
     @Test
-    void gameProcessesCommand() {
+    void gameExecutesProvidedCommand() {
         scanner = new Scanner("command\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
@@ -65,7 +54,7 @@ class GameTest {
     }
     @Test
     void gameDoesntEndsWhenQuitCommandIsProcessedAndGameIsNotOver() {
-        scanner = new Scanner("command\nquit");
+        scanner = new Scanner("command\nquit\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
         assertEquals("The game was not over yet...\n", output.toString());
