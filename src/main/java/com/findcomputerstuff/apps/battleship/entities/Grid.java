@@ -54,10 +54,10 @@ public class Grid {
 
             if (newRow >= 0 && newRow < chars.length && newCol >= 0 && newCol < chars[row].length) {
                 Ship adjacentShip = fleet.getShipAt(newRow, newCol);
-                if (adjacentShip == null) continue;
-                if (adjacentShip.getLabel() != chars[row][col]) continue;
-
-                return adjacentShip;
+                // Only execute logic when the adjacent ship is not null and its label matches the current cell
+                if (adjacentShip != null && adjacentShip.getLabel() == chars[row][col]) {
+                    return adjacentShip;
+                }
             }
         }
 
