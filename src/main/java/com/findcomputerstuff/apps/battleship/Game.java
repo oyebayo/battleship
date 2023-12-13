@@ -18,28 +18,26 @@ public class Game {
 	// Begins the game loop, processing user commands until the game ends
 	public void start(Scanner scanner, PrintStream output)
 	{
-		try {
-			playerManager.initializePlayers(scanner);
+        try (scanner) {
+            playerManager.initializePlayers(scanner);
 
-			if(!playerManager.isInitialized()) return;
-			while (true) {
-				String command = scanner.hasNext() ? scanner.next() : "";
-				if (command.equals("quit")) {
-					try {
-						quit();
-					} catch (GameEndException e) {
-						output.println(e.getMessage());
-						return;
-					}
-				} else if (command.equals("bye")) {
-					break;
-				} else {
-					commandProcessor.processCommand(scanner, command);
-				}
-			}
-		} finally {
-			scanner.close();
-		}
+            if (!playerManager.isInitialized()) return;
+            while (true) {
+                String command = scanner.hasNext() ? scanner.next() : "";
+                if (command.equals("quit")) {
+                    try {
+                        quit();
+                    } catch (GameEndException e) {
+                        output.println(e.getMessage());
+                        return;
+                    }
+                } else if (command.equals("bye")) {
+                    break;
+                } else {
+                    commandProcessor.processCommand(scanner, command);
+                }
+            }
+        }
 	}
 
 	// Method to quit the game
