@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class GridTest {
+class GridTest {
     private String[] gridStrings;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         gridStrings = new String[]{
             "DAAA..B.CCC.",
             "D..CCCB.....",
@@ -20,7 +20,7 @@ public class GridTest {
     }
 
     @Test
-    public void testConvertToFleet() {
+    void testConvertToFleet() {
         Grid grid = new Grid(gridStrings);
         Fleet fleet = grid.convertToFleet();
         assertEquals(7, fleet.size());
@@ -48,7 +48,7 @@ public class GridTest {
     }
 
     @Test
-    public void testFindAnyAdjacentShipWithSameLabel_adjacentVertical() {
+    void testFindAnyAdjacentShipWithSameLabel_adjacentVertical() {
         Grid grid = new Grid(gridStrings);
 
         Ship neighbourShip = new Ship(new Cell[]{
@@ -67,7 +67,7 @@ public class GridTest {
     }
 
     @Test
-    public void testFindAnyAdjacentShipWithSameLabel_adjacentHorizontal() {
+    void testFindAnyAdjacentShipWithSameLabel_adjacentHorizontal() {
         Grid grid = new Grid(gridStrings);
 
         Ship neighbourShip = new Ship(new Cell[]{
@@ -86,7 +86,7 @@ public class GridTest {
     }
 
     @Test
-    public void testFindAnyAdjacentShipWithSameLabel_notAdjacent() {
+    void testFindAnyAdjacentShipWithSameLabel_notAdjacent() {
         Grid grid = new Grid(gridStrings);
 
         Ship neighbourShip = new Ship(new Cell[]{
@@ -100,7 +100,7 @@ public class GridTest {
     }
 
     @Test
-    public void testFindAnyAdjacentShipWithSameLabel_differentLabel() {
+    void testFindAnyAdjacentShipWithSameLabel_differentLabel() {
         Grid grid = new Grid(gridStrings);
 
         Ship neighbourShip = new Ship(new Cell[]{

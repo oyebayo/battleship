@@ -4,9 +4,9 @@ import com.findcomputerstuff.apps.battleship.entities.HitResult;
 import com.findcomputerstuff.apps.battleship.entities.HitType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-public class HitResultTest {
+class HitResultTest {
     @Test
-    public void testHitResult() {
+    void testHitResult() {
         HitResult hitResult = new HitResult(HitType.BLANK);
         assertEquals(HitType.BLANK, hitResult.getHitType());
         assertEquals(0, hitResult.getCellCount());

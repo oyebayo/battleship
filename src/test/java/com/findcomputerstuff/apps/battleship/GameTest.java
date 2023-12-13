@@ -13,7 +13,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GameTest {
+class GameTest {
     private Game game;
     private CommandProcessor commandProcessor;
     private PlayerManager playerManager;
@@ -21,7 +21,7 @@ public class GameTest {
     private ByteArrayOutputStream output;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         commandProcessor = mock(CommandProcessor.class);
         playerManager = mock(PlayerManager.class);
         scanner = new Scanner("quit");
@@ -30,7 +30,7 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartsWithoutPlayers() {
+    void gameStartsWithoutPlayers() {
         when(playerManager.isInitialized()).thenReturn(false);
         game.start(scanner, new PrintStream(output));
         verify(playerManager, times(1)).initializePlayers(any(Scanner.class));
@@ -38,7 +38,7 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartsWithPlayersAndQuits() {
+    void gameStartsWithPlayersAndQuits() {
         Fleet fleet = mock(Fleet.class);
         when(playerManager.isInitialized()).thenReturn(true);
         when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(true);
@@ -49,7 +49,7 @@ public class GameTest {
     }
 
     @Test
-    public void gameStartsWithPlayersAndQuitsWithoutWinner() {
+    void gameStartsWithPlayersAndQuitsWithoutWinner() {
         when(playerManager.isInitialized()).thenReturn(true);
         when(playerManager.hasLessActivePlayersThanRequired()).thenReturn(false);
         game.start(scanner, new PrintStream(output));
@@ -58,14 +58,14 @@ public class GameTest {
     }
 
     @Test
-    public void gameProcessesCommand() {
+    void gameProcessesCommand() {
         scanner = new Scanner("command\nbye");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
         verify(commandProcessor, times(1)).processCommand(any(Scanner.class), eq("command"));
     }
     @Test
-    public void gameEndsWhenQuitCommandIsProcessed() {
+    void gameEndsWhenQuitCommandIsProcessed() {
         scanner = new Scanner("command\nquit");
         when(playerManager.isInitialized()).thenReturn(true);
         game.start(scanner, new PrintStream(output));
