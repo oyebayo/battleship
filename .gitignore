@@ -75,6 +75,8 @@ gradle-app.setting
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
+.idea/sonarlint
+.idea/inspectionProfiles
 *.iml
 *.ipr
 
