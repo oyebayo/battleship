@@ -3,7 +3,6 @@ package com.findcomputerstuff.apps.battleship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -20,7 +19,6 @@ class BattleshipTest {
     private Logger loggerMock;
     private MockedStatic<FleetFileHelper> staticFHelperMock;
     private MockedStatic<GameFactory> staticGameMock;
-    private MockedStatic<Logger> loggerMockedStatic;
 
     @BeforeEach
     void setUp() {
@@ -28,7 +26,7 @@ class BattleshipTest {
         loggerMock = Mockito.mock(Logger.class);
 
         staticFHelperMock = Mockito.mockStatic(FleetFileHelper.class);
-        loggerMockedStatic = Mockito.mockStatic(Logger.class);
+        MockedStatic<Logger> loggerMockedStatic = Mockito.mockStatic(Logger.class);
         loggerMockedStatic.when(() -> Logger.getLogger(Battleship.class.getName())).thenReturn(loggerMock);
 
         staticGameMock = Mockito.mockStatic(GameFactory.class);
