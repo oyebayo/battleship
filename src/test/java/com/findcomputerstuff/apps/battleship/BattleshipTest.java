@@ -1,5 +1,6 @@
 package com.findcomputerstuff.apps.battleship;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,6 +20,7 @@ class BattleshipTest {
     private Logger loggerMock;
     private MockedStatic<FleetFileHelper> staticFHelperMock;
     private MockedStatic<GameFactory> staticGameMock;
+    private MockedStatic<Logger> loggerMockedStatic;
 
     @BeforeEach
     void setUp() {
@@ -26,7 +28,7 @@ class BattleshipTest {
         loggerMock = Mockito.mock(Logger.class);
 
         staticFHelperMock = Mockito.mockStatic(FleetFileHelper.class);
-        MockedStatic<Logger> loggerMockedStatic = Mockito.mockStatic(Logger.class);
+        loggerMockedStatic = Mockito.mockStatic(Logger.class);
         loggerMockedStatic.when(() -> Logger.getLogger(Battleship.class.getName())).thenReturn(loggerMock);
 
         staticGameMock = Mockito.mockStatic(GameFactory.class);
@@ -36,6 +38,15 @@ class BattleshipTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    void tearDown() {
+        staticFHelperMock.close();
+        staticGameMock.close();
+        loggerMockedStatic.close();
+        game = null;
+        loggerMock = null;
     }
 
     @Test
