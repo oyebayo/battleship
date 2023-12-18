@@ -1,5 +1,7 @@
 package com.findcomputerstuff.apps.battleship;
 
+import com.findcomputerstuff.apps.battleship.entities.FleetDataException;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +34,7 @@ public class FleetDataLoader {
 
         fleetCount = 0;
         try {
-            while (fileScanner.hasNext()) {
-                int rows = fileScanner.nextInt();
-                int columns = fileScanner.nextInt();
-                fileScanner.nextLine(); // Consume the newline after columns
-
-                List<String> fleetStrings = new ArrayList<>();
-                for (int i = 0; i < rows; i++) {
-                    String nextLine = fileScanner.nextLine();
-                    if (nextLine.length() != columns) break;
-                    fleetStrings.add(nextLine);
-                }
-
-                if (fleetStrings.size() == rows) {
-                    fleetData.add(fleetStrings.toArray(new String[0]));
-                    fleetCount++;
-                }
-            }
+            loadFleets();
         } catch (Exception e) {
             output.println("Fleet file could not be loaded.");
         }
@@ -56,5 +42,30 @@ public class FleetDataLoader {
 
     int getFleetCount() {
         return fleetCount;
+    }
+
+    private void loadFleets() throws FleetDataException {
+        while (fileScanner.hasNext()) {
+            int rows = fileScanner.hasNextInt() ? fileScanner.nextInt() : -1;
+            int columns = fileScanner.hasNextInt() ? fileScanner.nextInt() : -1;
+            if (rows == -1 || columns == -1) throw new FleetDataException("Invalid fleet file layout");
+
+            fileScanner.nextLine(); // Consume the newline after columns
+
+            List<String> fleetStrings = loadFleetStrings(rows, columns);
+            if (fleetStrings.size() == rows) {
+                fleetData.add(fleetStrings.toArray(new String[0]));
+                fleetCount++;
+            }
+        }
+    }
+    private List<String> loadFleetStrings(int rows, int columns) {
+        List<String> fleetStrings = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            String nextLine = fileScanner.nextLine();
+            if (nextLine.length() != columns) break;
+            fleetStrings.add(nextLine);
+        }
+        return fleetStrings;
     }
 }
